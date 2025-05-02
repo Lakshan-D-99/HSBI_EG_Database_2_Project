@@ -6,7 +6,7 @@ In this semester, Database module 2 we will create a complete Software, that wil
 
 ### Developers working on this Project
 - Dhanuka Weerapperumage (me / Developer )
-- Jan Luka Ebmeier (Project Manager)
+- Jan Luca Ebmeier (Project Manager)
 - Darios Engelking ( Developer )
 
 
