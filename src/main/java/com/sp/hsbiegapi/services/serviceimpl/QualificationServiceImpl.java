@@ -1,0 +1,156 @@
+package com.sp.hsbiegapi.services.serviceimpl;
+
+import com.sp.hsbiegapi.daos.RequestDaos.QualificationRequestDao;
+import com.sp.hsbiegapi.daos.ResponseDaos.QualificationResponseDao;
+import com.sp.hsbiegapi.models.emploModels.Employee;
+import com.sp.hsbiegapi.models.emploModels.Qualification;
+import com.sp.hsbiegapi.repositories.EmployeeRepository;
+import com.sp.hsbiegapi.repositories.QualificationRepository;
+import com.sp.hsbiegapi.services.QualificationService;
+import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class QualificationServiceImpl implements QualificationService {
+
+    private final QualificationRepository qualificationRepository;
+    private final EmployeeRepository employeeRepository;
+
+    @Autowired
+    public QualificationServiceImpl(QualificationRepository qualificationRepository, EmployeeRepository employeeRepository) {
+        this.qualificationRepository = qualificationRepository;
+        this.employeeRepository = employeeRepository;
+    }
+
+    //--------------------  Helper Methods  --------------------//
+
+    // Convert a Qualification Entity into a Qualification Response Dao
+    private QualificationResponseDao conEntityToDao(Qualification qualification){
+        QualificationResponseDao qualificationResponseDao = new QualificationResponseDao();
+        qualificationResponseDao.setId(qualification.getId());
+        qualificationResponseDao.setQualificationType(qualification.getQualificationType());
+        qualificationResponseDao.setQualificationValidDate(qualification.getQualificationValid());
+        qualificationResponseDao.setEmpId(qualification.getEmployee().getId());
+        return qualificationResponseDao;
+    }
+
+    // Convert a Qualification Request into a Qualification Object
+    private Qualification conDaoToEntity(QualificationRequestDao qualificationRequestDao){
+        Qualification qualification = new Qualification();
+        qualification.setQualificationType(qualificationRequestDao.getQualificationType());
+        qualification.setQualificationValid(LocalDate.parse(qualificationRequestDao.getQualificationValidDate().toString()));
+        return qualification;
+    }
+
+    //--------------------  Qualification Model based Methods   --------------------//
+
+    @Override
+    public List<QualificationResponseDao> getAllEmployeeQualifications(long employeeId) {
+        try {
+
+            // Get all the Qualifications of an Employee based on the passed in EmployeeId
+            List<Qualification> qualificationList = qualificationRepository.findAllByEmployeeId(employeeId);
+
+            List<QualificationResponseDao> qualificationResponseDaoList = new ArrayList<>();
+
+            // Check for Qualifications and assign them to Response Object
+            if (!qualificationList.isEmpty()){
+                for (Qualification qualification:qualificationList){
+                    qualificationResponseDaoList.add(conEntityToDao(qualification));
+                }
+            }
+
+            return qualificationResponseDaoList;
+
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public QualificationResponseDao getSingleQualification(long qualificationId) {
+        try {
+
+            // Get a single Qualification based on the passed id
+            Optional<Qualification> qualification = qualificationRepository.findById(qualificationId);
+
+            // Check if this Qualification exists or not
+            if (qualification.isPresent()){
+                return conEntityToDao(qualification.get());
+            }
+
+            System.out.println("This Qualification does not exists in the Database");
+            return new QualificationResponseDao();
+
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public void addQualificationToEmployee(long employeeId, QualificationRequestDao qualificationRequestDao) {
+        try {
+
+            // Get the Employee first to check if the Employee exists in the Database
+            Optional<Employee> employee = employeeRepository.findById(employeeId);
+
+            // Check if the Employee exists, because without an existing Employee,it is not possible to add a Qualification.
+            if (employee.isPresent()){
+
+                // Check all the Required fields have been entered by the User
+                if (qualificationRequestDao.getQualificationType() != null && qualificationRequestDao.getQualificationValidDate() != null){
+
+                    // Convert Dao to an Entity
+                    Qualification qualification = conDaoToEntity(qualificationRequestDao);
+                    qualification.setEmployee(employee.get());
+
+                    // Save the Qualification into the Database
+                    qualificationRepository.save(qualification);
+                    System.out.println("Qualification added successfully");
+
+                }else{
+                    System.out.println("Required fields does not have Information");
+                }
+
+            }else {
+                System.out.println("Employee does not exists in the Database");
+            }
+
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @Override
+    public void updateEmployeeQualification(long employeeId, QualificationRequestDao qualificationRequestDao) {
+
+    }
+
+    @Override
+    public void deleteEmployeeQualification(long qualificationId) {
+
+        try {
+
+            // Get and Check if this Qualification exists in the Database
+            Optional<Qualification> qualification = qualificationRepository.findById(qualificationId);
+
+            if (qualification.isPresent()){
+                qualificationRepository.delete(qualification.get());
+                System.out.println("Qualification has been deleted");
+            }
+
+            System.out.println("This Qualification does not exists in the Database");
+
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+}
