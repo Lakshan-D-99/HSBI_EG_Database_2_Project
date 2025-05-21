@@ -7,6 +7,7 @@ import com.sp.hsbiegapi.models.emploModels.Payment;
 import com.sp.hsbiegapi.repositories.EmployeeRepository;
 import com.sp.hsbiegapi.repositories.PaymentRepository;
 import com.sp.hsbiegapi.services.PaymentService;
+import com.sp.hsbiegapi.utils.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,21 +27,6 @@ public class PaymentServiceImpl implements PaymentService {
         this.employeeRepository = employeeRepository;
     }
 
-    //--------------------  Helper Methods  --------------------//
-
-    // Convert Payment Entity into a Payment Response Object
-    private PaymentResponseDao conEntityToDao(Payment p) {
-        PaymentResponseDao paymentResponseDao = new PaymentResponseDao();
-        paymentResponseDao.setId(p.getId());
-        paymentResponseDao.setPaymentAmount(p.getPaymentAmount());
-        paymentResponseDao.setPaymentType(p.getPaymentType());
-        paymentResponseDao.setPaymentInvoiceNum(p.getPaymentInvoiceNum());
-        paymentResponseDao.setPaymentDate(p.getPaymentDate());
-        paymentResponseDao.setEmpId(p.getEmployee().getId());
-        return paymentResponseDao;
-
-    }
-
     @Override
     public List<PaymentResponseDao> getAllPaymentsOfEmployee(long employeeId) {
         try {
@@ -49,7 +35,7 @@ public class PaymentServiceImpl implements PaymentService {
 
             List<Payment> filterdPayments = allPayments.stream().filter(payment -> payment.getEmployee().getId()==employeeId).toList();
 
-            List<PaymentResponseDao> paymentResponseDaos = filterdPayments.stream().map(this::conEntityToDao).toList();
+            List<PaymentResponseDao> paymentResponseDaos = filterdPayments.stream().map(Mapper::conEntityToDao).toList();
 
             return paymentResponseDaos;
 
@@ -67,7 +53,7 @@ public class PaymentServiceImpl implements PaymentService {
 
             // Check if the Payment Object exists and send it to the front end
             if (payment.isPresent()) {
-                return conEntityToDao(payment.get());
+                return Mapper.conEntityToDao(payment.get());
             }
 
             System.out.println("This Payment information does not exists");

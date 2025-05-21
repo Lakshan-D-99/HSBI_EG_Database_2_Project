@@ -1,4 +1,4 @@
-package com.sp.hsbiegapi.models;
+package com.sp.hsbiegapi.models.memModels;
 
 
 import jakarta.persistence.*;

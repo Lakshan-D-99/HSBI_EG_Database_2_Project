@@ -1,4 +1,4 @@
-package com.sp.hsbiegapi.models.energyModels;
+package com.sp.hsbiegapi.models.locModels;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

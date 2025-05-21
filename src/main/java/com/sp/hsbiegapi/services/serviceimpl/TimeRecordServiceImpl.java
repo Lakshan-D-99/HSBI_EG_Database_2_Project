@@ -10,6 +10,7 @@ import com.sp.hsbiegapi.repositories.EmployeeRepository;
 import com.sp.hsbiegapi.repositories.PaymentRepository;
 import com.sp.hsbiegapi.repositories.TimeRecordRepository;
 import com.sp.hsbiegapi.services.TimeRecordService;
+import com.sp.hsbiegapi.utils.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,28 +34,6 @@ public class TimeRecordServiceImpl implements TimeRecordService {
         this.paymentRepository = paymentRepository;
     }
 
-    // -------------------- Helper Methods --------------------//
-
-    // Convert a TimeRecord Object into a Time Record Response
-    private TimeRecordResponseDao conEntityToDao(TimeRecord timeRecord) {
-        TimeRecordResponseDao timeRecordResponseDao = new TimeRecordResponseDao();
-        timeRecordResponseDao.setId(timeRecord.getId());
-        timeRecordResponseDao.setWorkDay(timeRecord.getWorkDay());
-        timeRecordResponseDao.setWorkHours(timeRecord.getWorkHours());
-        timeRecordResponseDao.setJob(timeRecord.getJob());
-        timeRecordResponseDao.setEmpId(timeRecord.getEmployee().getId());
-        return timeRecordResponseDao;
-    }
-
-    // Convert a TimeRecord Request into a Time Record Object
-    private TimeRecord conDaoToEntity(TimeRecordRequestDao timeRecordRequestDao) {
-        TimeRecord timeRecord = new TimeRecord();
-        timeRecord.setWorkHours(timeRecordRequestDao.getWorkHours());
-        timeRecord.setWorkDay(timeRecordRequestDao.getWorkDay());
-        timeRecord.setJob(timeRecordRequestDao.getJob());
-        return timeRecord;
-    }
-
     // -------------------- Model based Methods --------------------//
 
     @Override
@@ -68,7 +47,7 @@ public class TimeRecordServiceImpl implements TimeRecordService {
             if (!timeRecordList.isEmpty()) {
 
                 for (TimeRecord timeRecord : timeRecordList) {
-                    timeRecordResponseDaoList.add(conEntityToDao(timeRecord));
+                    timeRecordResponseDaoList.add(Mapper.conEntityToDao(timeRecord));
                 }
             }
 
@@ -87,7 +66,7 @@ public class TimeRecordServiceImpl implements TimeRecordService {
             Optional<TimeRecord> timeRecord = timeRecordRepository.findById(recordId);
 
 
-            return timeRecord.map(this::conEntityToDao).orElseGet(TimeRecordResponseDao::new);
+            return timeRecord.map(Mapper::conEntityToDao).orElseGet(TimeRecordResponseDao::new);
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -110,7 +89,7 @@ public class TimeRecordServiceImpl implements TimeRecordService {
                         timeRecordRequestDao.getWorkDay() != null &&
                         timeRecordRequestDao.getJob() != null) {
 
-                    TimeRecord timeRecord = conDaoToEntity(timeRecordRequestDao);
+                    TimeRecord timeRecord = Mapper.conDaoToEntity(timeRecordRequestDao);
                     timeRecord.setEmployee(employee.get());
 
                     timeRecordRepository.save(timeRecord);

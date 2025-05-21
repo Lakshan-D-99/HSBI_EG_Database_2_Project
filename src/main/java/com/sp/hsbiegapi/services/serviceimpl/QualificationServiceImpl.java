@@ -7,6 +7,7 @@ import com.sp.hsbiegapi.models.emploModels.Qualification;
 import com.sp.hsbiegapi.repositories.EmployeeRepository;
 import com.sp.hsbiegapi.repositories.QualificationRepository;
 import com.sp.hsbiegapi.services.QualificationService;
+import com.sp.hsbiegapi.utils.Mapper;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,26 +29,6 @@ public class QualificationServiceImpl implements QualificationService {
         this.employeeRepository = employeeRepository;
     }
 
-    //--------------------  Helper Methods  --------------------//
-
-    // Convert a Qualification Entity into a Qualification Response Dao
-    private QualificationResponseDao conEntityToDao(Qualification qualification){
-        QualificationResponseDao qualificationResponseDao = new QualificationResponseDao();
-        qualificationResponseDao.setId(qualification.getId());
-        qualificationResponseDao.setQualificationType(qualification.getQualificationType());
-        qualificationResponseDao.setQualificationValidDate(qualification.getQualificationValid());
-        qualificationResponseDao.setEmpId(qualification.getEmployee().getId());
-        return qualificationResponseDao;
-    }
-
-    // Convert a Qualification Request into a Qualification Object
-    private Qualification conDaoToEntity(QualificationRequestDao qualificationRequestDao){
-        Qualification qualification = new Qualification();
-        qualification.setQualificationType(qualificationRequestDao.getQualificationType());
-        qualification.setQualificationValid(LocalDate.parse(qualificationRequestDao.getQualificationValidDate().toString()));
-        return qualification;
-    }
-
     //--------------------  Qualification Model based Methods   --------------------//
 
     @Override
@@ -62,7 +43,7 @@ public class QualificationServiceImpl implements QualificationService {
             // Check for Qualifications and assign them to Response Object
             if (!qualificationList.isEmpty()){
                 for (Qualification qualification:qualificationList){
-                    qualificationResponseDaoList.add(conEntityToDao(qualification));
+                    qualificationResponseDaoList.add(Mapper.conEntityToDao(qualification));
                 }
             }
 
@@ -83,7 +64,7 @@ public class QualificationServiceImpl implements QualificationService {
 
             // Check if this Qualification exists or not
             if (qualification.isPresent()){
-                return conEntityToDao(qualification.get());
+                return Mapper.conEntityToDao(qualification.get());
             }
 
             System.out.println("This Qualification does not exists in the Database");
@@ -109,7 +90,7 @@ public class QualificationServiceImpl implements QualificationService {
                 if (qualificationRequestDao.getQualificationType() != null && qualificationRequestDao.getQualificationValidDate() != null){
 
                     // Convert Dao to an Entity
-                    Qualification qualification = conDaoToEntity(qualificationRequestDao);
+                    Qualification qualification = Mapper.conDaoToEntity(qualificationRequestDao);
                     qualification.setEmployee(employee.get());
 
                     // Save the Qualification into the Database

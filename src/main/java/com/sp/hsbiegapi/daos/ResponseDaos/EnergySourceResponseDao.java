@@ -1,4 +1,4 @@
-package com.sp.hsbiegapi.daos.RequestDaos;
+package com.sp.hsbiegapi.daos.ResponseDaos;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,11 +11,11 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Getter
 @Setter
-public class EnergySourceRequestsDao {
+public class EnergySourceResponseDao {
 
+    private long energySourceId;
     private double energyCapacity;
     private double energyType;
     private double energyAvailable;
     private LocalDate startDate;
-
 }

@@ -1,5 +1,6 @@
 package com.sp.hsbiegapi.models.energyModels;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,4 +22,13 @@ public class OperationalStatus {
     private long id;
     private LocalDate currentDate;
     private String opStatus;
+
+    /* *
+     *  Each Operational Status belongs to a specific Energy Source
+     */
+    @ManyToOne
+    @JoinColumn(name = "energy_source_id")
+    @JsonIgnore
+    private EnergySource energySource;
+
 }

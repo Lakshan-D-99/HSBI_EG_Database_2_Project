@@ -16,4 +16,5 @@ public interface PaymentRepository extends JpaRepository<Payment,Long> {
 
     /*@Query("SELECT P FROM Payment p WHERE p.employee.id=:employeeId ORDER BY p.paymentDate DESC LIMIT 1")
     Optional<Payment> getEmployeeLastPayment(long employeeId);*/
+
 }
