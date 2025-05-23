@@ -20,14 +20,14 @@ public class OperationalStatus {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    private LocalDate currentDate;
+    private LocalDate curDate;
     private String opStatus;
 
     /* *
      *  Each Operational Status belongs to a specific Energy Source
      */
     @ManyToOne
-    @JoinColumn(name = "energy_source_id")
+    @JoinColumn(name = "energysource_id")
     @JsonIgnore
     private EnergySource energySource;
 

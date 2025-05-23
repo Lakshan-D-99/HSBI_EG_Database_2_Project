@@ -19,7 +19,7 @@ public class Maintenance {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int maintenanceId;
+    private long id;
     private String maintenanceDetails;
     private double maintenanceCost;
     private String maintenanceStatus;
@@ -27,8 +27,8 @@ public class Maintenance {
 
     /** Each maintenance Record belongs to a specific Energy Source */
 
-    @ManyToOne
-    @JoinColumn(name = "energy_source_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "energysource_id")
     @JsonIgnore
     private EnergySource energySource;
 }
