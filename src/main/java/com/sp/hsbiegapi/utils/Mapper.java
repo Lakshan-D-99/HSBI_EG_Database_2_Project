@@ -1,18 +1,20 @@
 package com.sp.hsbiegapi.utils;
 
-import com.sp.hsbiegapi.daos.RequestDaos.EmployeeRequestDao;
-import com.sp.hsbiegapi.daos.RequestDaos.MemberRequestDao;
-import com.sp.hsbiegapi.daos.RequestDaos.QualificationRequestDao;
-import com.sp.hsbiegapi.daos.RequestDaos.TimeRecordRequests.TimeRecordRequestDao;
-import com.sp.hsbiegapi.daos.ResponseDaos.EmployeeResponseDao;
-import com.sp.hsbiegapi.daos.ResponseDaos.MemberResponseDao;
-import com.sp.hsbiegapi.daos.ResponseDaos.PaymentResponseDao;
-import com.sp.hsbiegapi.daos.ResponseDaos.QualificationResponseDao;
-import com.sp.hsbiegapi.daos.ResponseDaos.TimeRecordResponses.TimeRecordResponseDao;
+import com.sp.hsbiegapi.daos.RequestDaos.emploRequestDaos.EmployeeRequestDao;
+import com.sp.hsbiegapi.daos.RequestDaos.energyRequestsDao.EnergySourceRequestsDao;
+import com.sp.hsbiegapi.daos.RequestDaos.memberRequestsDao.MemberRequestDao;
+import com.sp.hsbiegapi.daos.RequestDaos.emploRequestDaos.QualificationRequestDao;
+import com.sp.hsbiegapi.daos.RequestDaos.emploRequestDaos.TimeRecordRequests.TimeRecordRequestDao;
+import com.sp.hsbiegapi.daos.ResponseDaos.emploResponseDaos.EmployeeResponseDao;
+import com.sp.hsbiegapi.daos.ResponseDaos.memberResponseDaos.MemberResponseDao;
+import com.sp.hsbiegapi.daos.ResponseDaos.emploResponseDaos.PaymentResponseDao;
+import com.sp.hsbiegapi.daos.ResponseDaos.emploResponseDaos.QualificationResponseDao;
+import com.sp.hsbiegapi.daos.ResponseDaos.emploResponseDaos.TimeRecordResponses.TimeRecordResponseDao;
 import com.sp.hsbiegapi.models.emploModels.Employee;
 import com.sp.hsbiegapi.models.emploModels.Payment;
 import com.sp.hsbiegapi.models.emploModels.Qualification;
 import com.sp.hsbiegapi.models.emploModels.TimeRecord;
+import com.sp.hsbiegapi.models.energyModels.EnergySource;
 import com.sp.hsbiegapi.models.memModels.Member;
 
 import java.time.LocalDate;
@@ -132,7 +134,7 @@ public class Mapper {
         return timeRecord;
     }
 
-    // Convert an Entity into a Response Dao
+    // Convert a Member Entity into a MemberResponse Dao
     public static MemberResponseDao conEntityToDao(Member member){
         MemberResponseDao md = new MemberResponseDao();
         md.setId(member.getId());
@@ -148,7 +150,7 @@ public class Mapper {
 
     }
 
-    // Convert a Request Dao into an Entity
+    // Convert a MemberRequest Dao into a Member Entity
     public static Member conDaoToEntity(MemberRequestDao memberRequestDao){
         Member member = new Member();
         member.setMemberName(memberRequestDao.getMemberName());
@@ -160,4 +162,19 @@ public class Mapper {
         member.setMemberPaymentType(memberRequestDao.getMemberPaymentType());
         return member;
     }
+
+    // Convert an EnergySourceRequestsDao into an EnergySource Object
+    public static EnergySource conDaoToEntity(EnergySourceRequestsDao energySourceRequestsDao){
+        EnergySource energySource = new EnergySource();
+        energySource.setEnergyCapacity(energySourceRequestsDao.getEnergyCapacity());
+        energySource.setEnergyType(energySourceRequestsDao.getEnergyType());
+        energySource.setStartDate(energySourceRequestsDao.getStartDate());
+        return energySource;
+    }
+
+    // Convert an EnergySource Object into a EnergySourceResponse Dao
+
+
+
+
 }

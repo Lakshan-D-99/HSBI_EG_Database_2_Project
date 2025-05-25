@@ -1,15 +1,14 @@
 package com.sp.hsbiegapi.services.serviceimpl;
 
-import com.sp.hsbiegapi.daos.RequestDaos.MemberRequestDao;
-import com.sp.hsbiegapi.daos.ResponseDaos.MemberResponseDao;
+import com.sp.hsbiegapi.daos.RequestDaos.memberRequestsDao.MemberRequestDao;
+import com.sp.hsbiegapi.daos.ResponseDaos.memberResponseDaos.MemberResponseDao;
 import com.sp.hsbiegapi.models.memModels.Member;
-import com.sp.hsbiegapi.repositories.MemberRepository;
-import com.sp.hsbiegapi.services.MemberService;
+import com.sp.hsbiegapi.repositories.membRepositories.MemberRepository;
+import com.sp.hsbiegapi.services.memServices.MemberService;
 import com.sp.hsbiegapi.utils.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 

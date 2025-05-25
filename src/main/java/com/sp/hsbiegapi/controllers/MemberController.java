@@ -1,7 +1,7 @@
 package com.sp.hsbiegapi.controllers;
 
-import com.sp.hsbiegapi.daos.ResponseDaos.MemberResponseDao;
-import com.sp.hsbiegapi.services.MemberService;
+import com.sp.hsbiegapi.daos.ResponseDaos.memberResponseDaos.MemberResponseDao;
+import com.sp.hsbiegapi.services.memServices.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

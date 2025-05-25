@@ -1,8 +1,8 @@
 package com.sp.hsbiegapi.controllers;
 
-import com.sp.hsbiegapi.daos.RequestDaos.PaymentRequestDao;
-import com.sp.hsbiegapi.daos.ResponseDaos.PaymentResponseDao;
-import com.sp.hsbiegapi.services.PaymentService;
+import com.sp.hsbiegapi.daos.RequestDaos.emploRequestDaos.PaymentRequestDao;
+import com.sp.hsbiegapi.daos.ResponseDaos.emploResponseDaos.PaymentResponseDao;
+import com.sp.hsbiegapi.services.emploServices.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,15 +1,14 @@
 package com.sp.hsbiegapi.services.serviceimpl;
 
-import com.sp.hsbiegapi.daos.RequestDaos.TimeRecordRequests.TimeRecordRequestDao;
-import com.sp.hsbiegapi.daos.ResponseDaos.TimeRecordResponses.TimeRecordResponseDao;
-import com.sp.hsbiegapi.daos.ResponseDaos.TimeRecordResponses.WorkingHoursResponseDao;
+import com.sp.hsbiegapi.daos.RequestDaos.emploRequestDaos.TimeRecordRequests.TimeRecordRequestDao;
+import com.sp.hsbiegapi.daos.ResponseDaos.emploResponseDaos.TimeRecordResponses.TimeRecordResponseDao;
+import com.sp.hsbiegapi.daos.ResponseDaos.emploResponseDaos.TimeRecordResponses.WorkingHoursResponseDao;
 import com.sp.hsbiegapi.models.emploModels.Employee;
-import com.sp.hsbiegapi.models.emploModels.Payment;
 import com.sp.hsbiegapi.models.emploModels.TimeRecord;
-import com.sp.hsbiegapi.repositories.EmployeeRepository;
-import com.sp.hsbiegapi.repositories.PaymentRepository;
-import com.sp.hsbiegapi.repositories.TimeRecordRepository;
-import com.sp.hsbiegapi.services.TimeRecordService;
+import com.sp.hsbiegapi.repositories.emploRepositories.EmployeeRepository;
+import com.sp.hsbiegapi.repositories.emploRepositories.PaymentRepository;
+import com.sp.hsbiegapi.repositories.emploRepositories.TimeRecordRepository;
+import com.sp.hsbiegapi.services.emploServices.TimeRecordService;
 import com.sp.hsbiegapi.utils.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

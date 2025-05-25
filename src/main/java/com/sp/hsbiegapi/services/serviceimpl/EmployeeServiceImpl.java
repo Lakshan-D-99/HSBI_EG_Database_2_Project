@@ -1,16 +1,10 @@
 package com.sp.hsbiegapi.services.serviceimpl;
 
-import com.sp.hsbiegapi.daos.RequestDaos.EmployeeRequestDao;
-import com.sp.hsbiegapi.daos.ResponseDaos.EmployeeResponseDao;
-import com.sp.hsbiegapi.daos.ResponseDaos.PaymentResponseDao;
-import com.sp.hsbiegapi.daos.ResponseDaos.QualificationResponseDao;
-import com.sp.hsbiegapi.daos.ResponseDaos.TimeRecordResponses.TimeRecordResponseDao;
+import com.sp.hsbiegapi.daos.RequestDaos.emploRequestDaos.EmployeeRequestDao;
+import com.sp.hsbiegapi.daos.ResponseDaos.emploResponseDaos.EmployeeResponseDao;
 import com.sp.hsbiegapi.models.emploModels.Employee;
-import com.sp.hsbiegapi.models.emploModels.Payment;
-import com.sp.hsbiegapi.models.emploModels.Qualification;
-import com.sp.hsbiegapi.models.emploModels.TimeRecord;
-import com.sp.hsbiegapi.repositories.EmployeeRepository;
-import com.sp.hsbiegapi.services.EmployeeService;
+import com.sp.hsbiegapi.repositories.emploRepositories.EmployeeRepository;
+import com.sp.hsbiegapi.services.emploServices.EmployeeService;
 import com.sp.hsbiegapi.utils.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

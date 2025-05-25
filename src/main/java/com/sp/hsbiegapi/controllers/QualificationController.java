@@ -1,8 +1,8 @@
 package com.sp.hsbiegapi.controllers;
 
-import com.sp.hsbiegapi.daos.RequestDaos.QualificationRequestDao;
-import com.sp.hsbiegapi.daos.ResponseDaos.QualificationResponseDao;
-import com.sp.hsbiegapi.services.QualificationService;
+import com.sp.hsbiegapi.daos.RequestDaos.emploRequestDaos.QualificationRequestDao;
+import com.sp.hsbiegapi.daos.ResponseDaos.emploResponseDaos.QualificationResponseDao;
+import com.sp.hsbiegapi.services.emploServices.QualificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

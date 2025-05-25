@@ -1,18 +1,16 @@
 package com.sp.hsbiegapi.services.serviceimpl;
 
-import com.sp.hsbiegapi.daos.RequestDaos.QualificationRequestDao;
-import com.sp.hsbiegapi.daos.ResponseDaos.QualificationResponseDao;
+import com.sp.hsbiegapi.daos.RequestDaos.emploRequestDaos.QualificationRequestDao;
+import com.sp.hsbiegapi.daos.ResponseDaos.emploResponseDaos.QualificationResponseDao;
 import com.sp.hsbiegapi.models.emploModels.Employee;
 import com.sp.hsbiegapi.models.emploModels.Qualification;
-import com.sp.hsbiegapi.repositories.EmployeeRepository;
-import com.sp.hsbiegapi.repositories.QualificationRepository;
-import com.sp.hsbiegapi.services.QualificationService;
+import com.sp.hsbiegapi.repositories.emploRepositories.EmployeeRepository;
+import com.sp.hsbiegapi.repositories.emploRepositories.QualificationRepository;
+import com.sp.hsbiegapi.services.emploServices.QualificationService;
 import com.sp.hsbiegapi.utils.Mapper;
-import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

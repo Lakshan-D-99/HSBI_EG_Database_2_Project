@@ -1,8 +1,8 @@
 package com.sp.hsbiegapi.controllers;
 
-import com.sp.hsbiegapi.daos.RequestDaos.EmployeeRequestDao;
-import com.sp.hsbiegapi.daos.ResponseDaos.EmployeeResponseDao;
-import com.sp.hsbiegapi.services.EmployeeService;
+import com.sp.hsbiegapi.daos.RequestDaos.emploRequestDaos.EmployeeRequestDao;
+import com.sp.hsbiegapi.daos.ResponseDaos.emploResponseDaos.EmployeeResponseDao;
+import com.sp.hsbiegapi.services.emploServices.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
