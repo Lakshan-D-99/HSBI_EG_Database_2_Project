@@ -1,4 +1,4 @@
-package com.sp.hsbiegapi.services.serviceimpl;
+package com.sp.hsbiegapi.services.serviceimpl.emploServiceImpls;
 
 import com.sp.hsbiegapi.daos.RequestDaos.emploRequestDaos.EmployeeRequestDao;
 import com.sp.hsbiegapi.daos.ResponseDaos.emploResponseDaos.EmployeeResponseDao;

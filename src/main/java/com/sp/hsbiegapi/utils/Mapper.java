@@ -1,11 +1,13 @@
 package com.sp.hsbiegapi.utils;
 
 import com.sp.hsbiegapi.daos.RequestDaos.emploRequestDaos.EmployeeRequestDao;
-import com.sp.hsbiegapi.daos.RequestDaos.energyRequestsDao.EnergySourceRequestsDao;
+import com.sp.hsbiegapi.daos.RequestDaos.emploRequestDaos.PaymentRequestDao;
+import com.sp.hsbiegapi.daos.RequestDaos.energyRequestsDao.*;
 import com.sp.hsbiegapi.daos.RequestDaos.memberRequestsDao.MemberRequestDao;
 import com.sp.hsbiegapi.daos.RequestDaos.emploRequestDaos.QualificationRequestDao;
 import com.sp.hsbiegapi.daos.RequestDaos.emploRequestDaos.TimeRecordRequests.TimeRecordRequestDao;
 import com.sp.hsbiegapi.daos.ResponseDaos.emploResponseDaos.EmployeeResponseDao;
+import com.sp.hsbiegapi.daos.ResponseDaos.energyResponseDaos.*;
 import com.sp.hsbiegapi.daos.ResponseDaos.memberResponseDaos.MemberResponseDao;
 import com.sp.hsbiegapi.daos.ResponseDaos.emploResponseDaos.PaymentResponseDao;
 import com.sp.hsbiegapi.daos.ResponseDaos.emploResponseDaos.QualificationResponseDao;
@@ -14,7 +16,7 @@ import com.sp.hsbiegapi.models.emploModels.Employee;
 import com.sp.hsbiegapi.models.emploModels.Payment;
 import com.sp.hsbiegapi.models.emploModels.Qualification;
 import com.sp.hsbiegapi.models.emploModels.TimeRecord;
-import com.sp.hsbiegapi.models.energyModels.EnergySource;
+import com.sp.hsbiegapi.models.energyModels.*;
 import com.sp.hsbiegapi.models.memModels.Member;
 
 import java.time.LocalDate;
@@ -96,6 +98,16 @@ public class Mapper {
         return paymentResponseDao;
     }
 
+    // Convert a PaymentRequsetDao into a Payment Object
+    public static Payment conDaoToEntity(PaymentRequestDao paymentRequestDao){
+        Payment payment = new Payment();
+        payment.setPaymentAmount(paymentRequestDao.getPaymentAmount());
+        payment.setPaymentType(paymentRequestDao.getPaymentType());
+        payment.setPaymentInvoiceNum(paymentRequestDao.getPaymentInvoiceNum());
+        payment.setPaymentDate(paymentRequestDao.getPaymentDate());
+        return payment;
+    }
+
     // Convert a Qualification Entity into a Qualification Response Dao
     public static QualificationResponseDao conEntityToDao(Qualification qualification){
         QualificationResponseDao qualificationResponseDao = new QualificationResponseDao();
@@ -173,6 +185,138 @@ public class Mapper {
     }
 
     // Convert an EnergySource Object into a EnergySourceResponse Dao
+    public static EnergySourceResponseDao conEntityToDao(EnergySource energySource){
+        EnergySourceResponseDao energySourceResponseDao = new EnergySourceResponseDao();
+        energySourceResponseDao.setEnergySourceId(energySource.getId());
+        energySourceResponseDao.setEnergyCapacity(energySource.getEnergyCapacity());
+        energySourceResponseDao.setEnergyType(energySource.getEnergyType());
+        energySourceResponseDao.setEnergyAvailable(energySource.getEnergyAvailable());
+        energySourceResponseDao.setStartDate(energySource.getStartDate());
+
+        // Add Alert Signals, if there are any
+        List<AlertSignalResponseDao> alertSignals = new ArrayList<>();
+
+        if (energySource.getAlertSignalList() != null){
+            for (AlertSignal alertSignal : energySource.getAlertSignalList()){
+                alertSignals.add(conEntityToDao(alertSignal));
+            }
+        }
+
+        energySourceResponseDao.setAlertSignalResponseDaoList(alertSignals);
+
+        // Add Daily Productions, if there are any
+        List<DailyProductionResponseDao> dailyProducts = new ArrayList<>();
+
+        if (energySource.getDailyProductionList() != null){
+            for (DailyProduction dailyProduction : energySource.getDailyProductionList()){
+                dailyProducts.add(conEntityToDao(dailyProduction));
+            }
+        }
+
+        energySourceResponseDao.setDailyProductionResponseDaoList(dailyProducts);
+
+        // Add Maintenance Details, if there are any
+        List<MaintenanceResponseDao> maintenanceList = new ArrayList<>();
+
+        if (energySource.getMaintenanceList() != null){
+            for (Maintenance maintenance : energySource.getMaintenanceList()){
+                maintenanceList.add(conEntityToDao(maintenance));
+            }
+        }
+
+        energySourceResponseDao.setMaintenanceResponseDaoList(maintenanceList);
+
+        // Add Operational Status, if there are any
+        List<OperationalStatusResponseDao> operationalStatusList = new ArrayList<>();
+
+        if (energySource.getOperationalStatusList() != null){
+            for (OperationalStatus operationalStatus : energySource.getOperationalStatusList()){
+                operationalStatusList.add(conEntityToDao(operationalStatus));
+            }
+        }
+
+        energySourceResponseDao.setOperationalStatusResponseDaoList(operationalStatusList);
+
+        return energySourceResponseDao;
+    }
+
+    // Convert an AlertSignalRequestDao into an AlertSignal Object
+    public static AlertSignal conDaoToEntity(AlertSignalRequestDao alertSignalRequestDao){
+        AlertSignal alertSignal = new AlertSignal();
+        alertSignal.setCurDate(alertSignalRequestDao.getCurDate());
+        alertSignal.setAlarmType(alertSignalRequestDao.getAlarmType());
+        alertSignal.setAlarmStatus(alertSignalRequestDao.getAlarmStatus());
+        return alertSignal;
+    }
+
+    // Convert an AlertSignal Object into a AlertSignalResponseDao
+    public static AlertSignalResponseDao conEntityToDao(AlertSignal alertSignal){
+        AlertSignalResponseDao alertSignalResponseDao = new AlertSignalResponseDao();
+        alertSignalResponseDao.setId(alertSignal.getId());
+        alertSignalResponseDao.setCurDate(alertSignal.getCurDate());
+        alertSignalResponseDao.setAlarmType(alertSignal.getAlarmType());
+        alertSignalResponseDao.setAlarmStatus(alertSignal.getAlarmStatus());
+        alertSignalResponseDao.setEnergySourceId(alertSignal.getEnergySource().getId());
+        return alertSignalResponseDao;
+    }
+
+    // Convert a DailyProductionRequset into a DailyProduction Object
+    public static DailyProduction conDaoToEntity(DailyProductionRequestDao dailyProductionRequestDao){
+        DailyProduction dailyProduction = new DailyProduction();
+        dailyProduction.setCurDate(dailyProductionRequestDao.getCurDate());
+        dailyProduction.setDailyProdAmount(dailyProductionRequestDao.getDailyProdAmount());
+        return dailyProduction;
+    }
+
+    // Convert a DailyProduction Object into a DailyProductionResponse
+    public static DailyProductionResponseDao conEntityToDao(DailyProduction dailyProduction){
+        DailyProductionResponseDao dailyProductionResponseDao = new DailyProductionResponseDao();
+        dailyProductionResponseDao.setId(dailyProduction.getId());
+        dailyProductionResponseDao.setCurDate(dailyProduction.getCurDate());
+        dailyProductionResponseDao.setDailyProdAmount(dailyProduction.getDailyProdAmount());
+        dailyProductionResponseDao.setEnergySourceId(dailyProduction.getEnergySource().getId());
+        return dailyProductionResponseDao;
+    }
+
+    // Convert a MaintenanceRequest into a Maintenance Object
+    public static Maintenance conDaoToEntity(MaintenanceRequestsDao maintenanceRequestsDao){
+        Maintenance maintenance = new Maintenance();
+        maintenance.setMaintenanceDetails(maintenanceRequestsDao.getMaintenanceDetails());
+        maintenance.setMaintenanceCost(maintenanceRequestsDao.getMaintenanceCost());
+        maintenance.setMaintenanceDate(maintenanceRequestsDao.getMaintenanceDate());
+        maintenance.setMaintenanceStatus(maintenanceRequestsDao.getMaintenanceStatus());
+        return maintenance;
+    }
+
+    // Convert a Maintenance Object into a MaintenanceResponseDao
+    public static MaintenanceResponseDao conEntityToDao(Maintenance maintenance){
+        MaintenanceResponseDao maintenanceResponseDao = new MaintenanceResponseDao();
+        maintenanceResponseDao.setId(maintenance.getId());
+        maintenanceResponseDao.setMaintenanceDetails(maintenance.getMaintenanceDetails());
+        maintenanceResponseDao.setMaintenanceCost(maintenance.getMaintenanceCost());
+        maintenanceResponseDao.setMaintenanceDate(maintenance.getMaintenanceDate());
+        maintenanceResponseDao.setMaintenanceStatus(maintenance.getMaintenanceStatus());
+        maintenanceResponseDao.setEnergySourceId(maintenance.getEnergySource().getId());
+        return maintenanceResponseDao;
+    }
+
+    // Convert a OperationalStatusRequest into a OperationalStatus Object
+    public static OperationalStatus conDaoToEntity(OperationalStatusRequestsDao operationalStatusRequestsDao){
+        OperationalStatus operationalStatus = new OperationalStatus();
+        operationalStatus.setCurDate(operationalStatusRequestsDao.getCurDate());
+        operationalStatus.setOpStatus(operationalStatusRequestsDao.getOpStatus());
+        return operationalStatus;
+    }
+
+    // Convert a OperationalStatus Object into a OperationalStatus Response
+    public static OperationalStatusResponseDao conEntityToDao(OperationalStatus operationalStatus){
+        OperationalStatusResponseDao operationalStatusResponseDao = new OperationalStatusResponseDao();
+        operationalStatusResponseDao.setId(operationalStatus.getId());
+        operationalStatusResponseDao.setCurDate(operationalStatus.getCurDate());
+        operationalStatusResponseDao.setOpStatus(operationalStatus.getOpStatus());
+        operationalStatusResponseDao.setEnergySourceId(operationalStatus.getEnergySource().getId());
+        return operationalStatusResponseDao;
+    }
 
 
 
