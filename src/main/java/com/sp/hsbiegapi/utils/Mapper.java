@@ -75,7 +75,7 @@ public class Mapper {
         // Check if the Employee has time keeping and assign them to the Employee Response Object
         List<TimeRecordResponseDao> timeRecordResponseDaoList = new ArrayList<>();
 
-        if (employee.getQualificationList() != null){
+        if (employee.getTimeRecordList() != null){
             for (TimeRecord timeRecord : employee.getTimeRecordList()){
                 timeRecordResponseDaoList.add(conEntityToDao(timeRecord));
             }

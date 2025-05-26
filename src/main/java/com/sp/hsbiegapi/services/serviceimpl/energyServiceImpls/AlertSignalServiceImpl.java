@@ -62,15 +62,12 @@ public class AlertSignalServiceImpl implements AlertSignalService {
                 if (alertSignalRequestDao.getCurDate() != null && !(alertSignalRequestDao.getAlarmType().isEmpty()) && !(alertSignalRequestDao.getAlarmStatus().isEmpty())){
 
                     // Create an Alert Signal Object and store it into the Database
-                    AlertSignal alertSignal = new AlertSignal();
-                    alertSignal.setCurDate(alertSignalRequestDao.getCurDate());
-                    alertSignal.setAlarmType(alertSignalRequestDao.getAlarmType());
-                    alertSignal.setAlarmStatus(alertSignalRequestDao.getAlarmStatus());
+                    AlertSignal alertSignal = Mapper.conDaoToEntity(alertSignalRequestDao);
                     alertSignal.setEnergySource(energySource.get());
 
                     alertSignalRepository.save(alertSignal);
 
-                    System.out.println("An Alert system has occured from the Energy Source: " + energySourceId);
+                    System.out.println("An Alert system has occurred from the Energy Source: " + energySourceId);
                 }else {
                     System.out.println("Alert Signal was not able to made, because of missing Data");
                 }
