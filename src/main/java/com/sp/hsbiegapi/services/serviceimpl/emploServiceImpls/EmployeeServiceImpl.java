@@ -85,6 +85,8 @@ public class EmployeeServiceImpl implements EmployeeService {
                     employeeRequestDao.getEmpStartDate() != null &&
                     employeeRequestDao.getEmpInfo() != null) {
 
+                // Check if the Employee already exists in the Database, we can do that by checking the passed in Email
+
 
                 // Create an Employee Object from the Request Dao and store it into the Database
                 Employee employee = new Employee();

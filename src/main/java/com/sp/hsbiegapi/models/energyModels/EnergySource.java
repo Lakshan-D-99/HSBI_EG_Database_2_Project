@@ -22,7 +22,7 @@ public class EnergySource {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private double energyCapacity;
-    private double energyType;
+    private String energyType;
     private double energyAvailable;
     private LocalDate startDate;
 

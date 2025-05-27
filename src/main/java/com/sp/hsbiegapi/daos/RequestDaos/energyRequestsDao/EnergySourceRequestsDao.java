@@ -14,7 +14,7 @@ import java.time.LocalDate;
 public class EnergySourceRequestsDao {
 
     private double energyCapacity;
-    private double energyType;
+    private String energyType;
     private LocalDate startDate;
 
 }
