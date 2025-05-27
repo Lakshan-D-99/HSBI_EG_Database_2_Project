@@ -17,7 +17,7 @@ public class EnergySourceResponseDao {
 
     private long energySourceId;
     private double energyCapacity;
-    private double energyType;
+    private String energyType;
     private double energyAvailable;
     private LocalDate startDate;
     private List<AlertSignalResponseDao> alertSignalResponseDaoList = new ArrayList<>();

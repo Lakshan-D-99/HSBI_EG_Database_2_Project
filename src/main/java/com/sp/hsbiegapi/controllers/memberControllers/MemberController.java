@@ -1,4 +1,4 @@
-package com.sp.hsbiegapi.controllers;
+package com.sp.hsbiegapi.controllers.memberControllers;
 
 import com.sp.hsbiegapi.daos.ResponseDaos.memberResponseDaos.MemberResponseDao;
 import com.sp.hsbiegapi.services.memServices.MemberService;

@@ -7,11 +7,13 @@ import com.sp.hsbiegapi.repositories.energyRepositories.EnergySourceRepository;
 import com.sp.hsbiegapi.services.energyServices.EnergySourceService;
 import com.sp.hsbiegapi.utils.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class EnergySourceServiceImpl implements EnergySourceService {
 
     private final EnergySourceRepository energySourceRepository;
@@ -75,6 +77,7 @@ public class EnergySourceServiceImpl implements EnergySourceService {
             if (energySourceRequestsDao.getEnergyCapacity() != 0.0 && !(energySourceRequestsDao.getEnergyType().isEmpty()) && energySourceRequestsDao.getStartDate() != null) {
 
                 EnergySource energySource = Mapper.conDaoToEntity(energySourceRequestsDao);
+                energySource.setEnergyAvailable(0.0);
 
                 energySourceRepository.save(energySource);
 

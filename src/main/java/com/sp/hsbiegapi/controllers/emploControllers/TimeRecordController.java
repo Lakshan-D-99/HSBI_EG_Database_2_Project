@@ -1,4 +1,4 @@
-package com.sp.hsbiegapi.controllers;
+package com.sp.hsbiegapi.controllers.emploControllers;
 
 import com.sp.hsbiegapi.daos.RequestDaos.emploRequestDaos.TimeRecordRequests.TimeRecordRequestDao;
 import com.sp.hsbiegapi.daos.ResponseDaos.emploResponseDaos.TimeRecordResponses.TimeRecordResponseDao;
