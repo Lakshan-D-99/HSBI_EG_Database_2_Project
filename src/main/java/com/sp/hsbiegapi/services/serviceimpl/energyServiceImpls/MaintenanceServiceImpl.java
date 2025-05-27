@@ -27,6 +27,34 @@ public class MaintenanceServiceImpl implements MaintenanceService {
         this.energySourceRepository = energySourceRepository;
     }
 
+
+    @Override
+    public List<MaintenanceResponseDao> getAllMaintenanceRecords() {
+        try {
+
+            List<MaintenanceResponseDao> maintenanceResponseDaoList = new ArrayList<>();
+
+            List<Maintenance> maintenanceList = maintenanceRepository.findAll();
+
+            if (!maintenanceList.isEmpty()){
+
+                for (Maintenance maintenance : maintenanceList){
+                    maintenanceResponseDaoList.add(Mapper.conEntityToDao(maintenance));
+                }
+
+                return maintenanceResponseDaoList;
+            }
+
+            System.out.println("There are no Maintenance Records");
+
+            return new ArrayList<>();
+
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+            return new ArrayList<>();
+        }
+    }
+
     @Override
     public List<MaintenanceResponseDao> getAllMaintenanceOfEnergySource(long energySourceId) {
         try {

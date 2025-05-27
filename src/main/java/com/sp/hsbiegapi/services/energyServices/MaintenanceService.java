@@ -7,6 +7,9 @@ import java.util.List;
 
 public interface MaintenanceService {
 
+    // Get all the Maintenance Records in the Database
+    List<MaintenanceResponseDao> getAllMaintenanceRecords();
+
     // Get all the Maintenance Details of a specific Energy Source
     List<MaintenanceResponseDao> getAllMaintenanceOfEnergySource(long energySourceId);
 
