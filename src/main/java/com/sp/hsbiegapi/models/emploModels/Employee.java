@@ -1,11 +1,14 @@
 package com.sp.hsbiegapi.models.emploModels;
 
+import com.sp.hsbiegapi.models.energyModels.EnergySource;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 @AllArgsConstructor
@@ -35,6 +38,9 @@ public class Employee {
 
     @OneToMany(mappedBy = "employee",cascade = CascadeType.ALL,fetch = FetchType.LAZY,orphanRemoval = true)
     private List<TimeRecord> timeRecordList = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "employeeSet")
+    private Set<EnergySource> energySourceSet = new HashSet<>();
 
     public void addPayment(Payment payment){
         paymentList.add(payment);

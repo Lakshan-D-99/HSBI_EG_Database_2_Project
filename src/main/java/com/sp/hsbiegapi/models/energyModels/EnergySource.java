@@ -1,5 +1,6 @@
 package com.sp.hsbiegapi.models.energyModels;
 
+import com.sp.hsbiegapi.models.emploModels.Employee;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,7 +9,9 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -54,4 +57,29 @@ public class EnergySource {
      */
     @OneToMany(mappedBy = "energySource",cascade = CascadeType.ALL,fetch = FetchType.LAZY,orphanRemoval = true)
     private List<OperationalStatus> operationalStatusList = new ArrayList<>();
+
+    /**
+     * One Employee can assigned to multiple Energy Sources and vice versa. Therfore we have m to n relationship
+     * between Employees and Energy Sources.
+     */
+    @ManyToMany
+    @JoinTable(
+            name = "energysource_employee",
+            joinColumns = @JoinColumn(name = "energysource_id"),
+            inverseJoinColumns = @JoinColumn(name = "employee_id")
+
+    )
+    private Set<Employee> employeeSet = new HashSet<>();
+
+    // Add an Employee into a Project
+    public void addEmployee(Employee employee){
+        employeeSet.add(employee);
+        employee.getEnergySourceSet().add(this);
+    }
+
+    // Remove an Employee from a Project
+    public void removeEmployee(Employee employee){
+        employeeSet.remove(employee);
+        employee.getEnergySourceSet().remove(this);
+    }
 }
