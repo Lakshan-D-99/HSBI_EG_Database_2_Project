@@ -10,6 +10,7 @@ import com.sp.hsbiegapi.daos.RequestDaos.emploRequestDaos.TimeRecordRequests.Tim
 import com.sp.hsbiegapi.daos.ResponseDaos.emploResponseDaos.EmployeeResponseDao;
 import com.sp.hsbiegapi.daos.ResponseDaos.energyResponseDaos.*;
 import com.sp.hsbiegapi.daos.ResponseDaos.locatiResponseDaos.LocationResponseDao;
+import com.sp.hsbiegapi.daos.ResponseDaos.locatiResponseDaos.WeatherResponseDao;
 import com.sp.hsbiegapi.daos.ResponseDaos.memberResponseDaos.MemberResponseDao;
 import com.sp.hsbiegapi.daos.ResponseDaos.emploResponseDaos.PaymentResponseDao;
 import com.sp.hsbiegapi.daos.ResponseDaos.emploResponseDaos.QualificationResponseDao;
@@ -20,6 +21,7 @@ import com.sp.hsbiegapi.models.emploModels.Qualification;
 import com.sp.hsbiegapi.models.emploModels.TimeRecord;
 import com.sp.hsbiegapi.models.energyModels.*;
 import com.sp.hsbiegapi.models.locModels.Location;
+import com.sp.hsbiegapi.models.locModels.WeatherData;
 import com.sp.hsbiegapi.models.memModels.Member;
 
 import java.time.LocalDate;
@@ -346,6 +348,17 @@ public class Mapper {
         location.setLocCapacity(locationRequestDao.getLocCapacity());
         location.setLocStartDate(locationRequestDao.getStartDate());
         return location;
+    }
+
+    // Convert a Weather Object into a Weather Response Dao
+    public static WeatherResponseDao conEntityToDao(WeatherData weatherData){
+        WeatherResponseDao weatherResponseDao = new WeatherResponseDao();
+        weatherResponseDao.setId(weatherData.getId());
+        weatherResponseDao.setTodayDate(weatherData.getCurDate());
+        weatherResponseDao.setHighestTemp(weatherData.getHighestTemp());
+        weatherResponseDao.setSunHours(weatherData.getSunHours());
+        weatherResponseDao.setLocationId(weatherData.getLocation().getId());
+        return weatherResponseDao;
     }
 
 
