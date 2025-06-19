@@ -1,5 +1,6 @@
 package com.sp.hsbiegapi.models.locModels;
 
+import com.sp.hsbiegapi.models.energyModels.EnergySource;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,6 +8,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,12 +23,26 @@ public class Location {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long locationId;
-    private String locationName;
-    private String locationAddress;
-    private String locationGeoDetails;
-    private String locationStatus;
-    private int locationCapacity;
-    private LocalDate locationStartDate;
+    private long id;
+    private String locName;
+    private String locAddress;
+    private String locGeoDetails;
+    private String locStatus;
+    private int locCapacity;
+    private LocalDate locStartDate;
+
+    /**
+     * Each Location should be able to store daily Weather data, therefor we will have a one-to-many relationship between Location and Weather
+     */
+    @OneToMany(
+            mappedBy = "location",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            orphanRemoval = true
+    )
+    private List<WeatherData> weatherDataList = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "locationSet")
+    private Set<EnergySource> energySourceSet = new HashSet<>();
 
 }
