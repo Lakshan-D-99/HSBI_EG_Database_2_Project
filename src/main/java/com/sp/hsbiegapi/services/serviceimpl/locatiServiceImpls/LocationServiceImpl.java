@@ -25,52 +25,72 @@ public class LocationServiceImpl implements LocationService {
     @Override
     public List<LocationResponseDao> getAllLocations() {
 
-        // Get all the Locations from the Database
-        List<Location> locationList = locationRepository.findAll();
+        try {
+            // Get all the Locations from the Database
+            List<Location> locationList = locationRepository.findAll();
 
-        // Create a LocationResponseDao list to store converted Locations
-        List<LocationResponseDao> locationResponseDaoList = new ArrayList<>();
+            // Create a LocationResponseDao list to store converted Locations
+            List<LocationResponseDao> locationResponseDaoList = new ArrayList<>();
 
-        // Convert Locations into LocationsResponseDaos
-        locationList.forEach(location -> locationResponseDaoList.add(Mapper.conEntityToDao(location)));
+            // Convert Locations into LocationsResponseDaos
+            locationList.forEach(location -> locationResponseDaoList.add(Mapper.conEntityToDao(location)));
 
-        // Return the DAOs list
-        return locationResponseDaoList;
+            // Return the DAOs list
+            return locationResponseDaoList;
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public LocationResponseDao getLocation(long locationId) {
 
-        // Get the Location based on the passed in Location id
-        Location location = locationRepository.findById(locationId).orElseThrow();
+        try {
+            // Get the Location based on the passed in Location id
+            Location location = locationRepository.findById(locationId).orElseThrow();
 
-        // Convert into a DAO and return it
-        return Mapper.conEntityToDao(location);
+            // Convert into a DAO and return it
+            return Mapper.conEntityToDao(location);
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public int getLocationCapacity(long locationId) {
 
-        // Get the Location based on the passed in Location id
-        Location location = locationRepository.findById(locationId).orElseThrow();
+        try {
+            // Get the Location based on the passed in Location id
+            Location location = locationRepository.findById(locationId).orElseThrow();
 
-        // Get the Location Capacity from the Location Object and return it
-        return location.getLocCapacity();
+            // Get the Location Capacity from the Location Object and return it
+            return location.getLocCapacity();
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public void saveLocation(LocationRequestDao locationRequestDao) {
 
-        // Check if the Required fields are passed in
-        if (locationRequestDao.getLocName().isEmpty() && locationRequestDao.getLocAddress().isEmpty() && locationRequestDao.getLocLatitude().isEmpty() && locationRequestDao.getLocLongitude().isEmpty() && locationRequestDao.getLocStatus().isEmpty() && locationRequestDao.getLocCapacity() == 0 && locationRequestDao.getStartDate() == null){
-            System.out.println("Please provide all the necessray Details to create and save a new Location");
+        try {
+            // Check if the Required fields are passed in
+            if (locationRequestDao.getLocName().isEmpty() && locationRequestDao.getLocAddress().isEmpty() && locationRequestDao.getLocLatitude().isEmpty() && locationRequestDao.getLocLongitude().isEmpty() && locationRequestDao.getLocStatus().isEmpty() && locationRequestDao.getLocCapacity() == 0 && locationRequestDao.getStartDate() == null){
+                System.out.println("Please provide all the necessray Details to create and save a new Location");
+            }
+
+            // Create a Location Object based on the passed in Location Details
+            Location location = Mapper.conDaoToEntity(locationRequestDao);
+
+            // Save the Location to the Database
+            locationRepository.save(location);
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
-
-        // Create a Location Object based on the passed in Location Details
-        Location location = Mapper.conDaoToEntity(locationRequestDao);
-
-        // Save the Location to the Database
-        locationRepository.save(location);
 
     }
 
@@ -83,10 +103,15 @@ public class LocationServiceImpl implements LocationService {
     @Override
     public void deleteLocation(long locationId) {
 
-        // Get the Location based on passed in Location id
-        Location location = locationRepository.findById(locationId).orElseThrow();
+        try {
+            // Get the Location based on passed in Location id
+            Location location = locationRepository.findById(locationId).orElseThrow();
 
-        // Remove the Location from the Database
-        locationRepository.delete(location);
+            // Remove the Location from the Database
+            locationRepository.delete(location);
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
