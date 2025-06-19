@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -13,8 +15,11 @@ public class LocationRequestDao {
 
     private String locName;
     private String locAddress;
-    private String locGeoDetails;
+    //private String locGeoDetails;
+    private String locLatitude;
+    private String locLongitude;
     private String locStatus;
     private int locCapacity;
+    private LocalDate startDate;
 
 }

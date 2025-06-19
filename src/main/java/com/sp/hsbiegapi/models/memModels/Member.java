@@ -26,4 +26,8 @@ public class Member {
     private String memberStatus;
     private LocalDate memberJoinDate;
     private String memberPaymentType;
+
+    /**
+     * A Member can
+     */
 }

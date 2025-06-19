@@ -24,12 +24,10 @@ public class EmployeeServiceImpl implements EmployeeService {
         this.employeeRepository = employeeRepository;
     }
 
-
     @Override
     public List<EmployeeResponseDao> getAllEmployees() {
 
         try {
-
             // Get all the Employees from the Database
             List<Employee> allEmployees = employeeRepository.findAll();
 
@@ -76,34 +74,20 @@ public class EmployeeServiceImpl implements EmployeeService {
     public void addNewEmployee(EmployeeRequestDao employeeRequestDao) {
 
         try {
-
-            // Check if the Data is correctly passed into create an Employee
-            if (employeeRequestDao.getEmpName() != null &&
-                    employeeRequestDao.getEmpEmail() != null &&
-                    employeeRequestDao.getEmpContactNumber() != null &&
-                    employeeRequestDao.getEmpPosition() != null &&
-                    employeeRequestDao.getEmpStartDate() != null &&
-                    employeeRequestDao.getEmpInfo() != null) {
-
-                // Check if the Employee already exists in the Database, we can do that by checking the passed in Email
-
-
                 // Create an Employee Object from the Request Dao and store it into the Database
                 Employee employee = new Employee();
                 employee.setEmpName(employeeRequestDao.getEmpName());
                 employee.setEmpEmail(employeeRequestDao.getEmpEmail());
-                employee.setEmpContactNum(employeeRequestDao.getEmpContactNumber());
+                //employee.setEmpContactNum("Test Number");
                 employee.setEmpPosition(employeeRequestDao.getEmpPosition());
-                employee.setEmpInfo(employeeRequestDao.getEmpInfo());
-                employee.setEmpStartDate(LocalDate.parse(employeeRequestDao.getEmpStartDate().toString()));
+               // employee.setEmpInfo("Test information");
+                //employee.setEmpStartDate(LocalDate.parse("23/10/2003"));
+
+                System.out.println(employee.getEmpName());
+
                 employeeRepository.save(employee);
 
                 System.out.println("New Employee has been created and stored it into the Database");
-
-
-            } else {
-                System.out.println("Error creating an Employee");
-            }
 
         } catch (Exception e) {
             System.out.println(e.getMessage());

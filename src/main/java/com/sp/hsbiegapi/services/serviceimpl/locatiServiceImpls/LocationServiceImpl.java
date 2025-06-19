@@ -62,7 +62,7 @@ public class LocationServiceImpl implements LocationService {
     public void saveLocation(LocationRequestDao locationRequestDao) {
 
         // Check if the Required fields are passed in
-        if (locationRequestDao.getLocName().isEmpty() && locationRequestDao.getLocAddress().isEmpty() && locationRequestDao.getLocGeoDetails().isEmpty() && locationRequestDao.getLocStatus().isEmpty() && locationRequestDao.getLocCapacity() == 0 && locationRequestDao.getStartDate() == null){
+        if (locationRequestDao.getLocName().isEmpty() && locationRequestDao.getLocAddress().isEmpty() && locationRequestDao.getLocLatitude().isEmpty() && locationRequestDao.getLocLongitude().isEmpty() && locationRequestDao.getLocStatus().isEmpty() && locationRequestDao.getLocCapacity() == 0 && locationRequestDao.getStartDate() == null){
             System.out.println("Please provide all the necessray Details to create and save a new Location");
         }
 

@@ -24,9 +24,12 @@ public class Location {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+    @Column(unique = true)
     private String locName;
     private String locAddress;
-    private String locGeoDetails;
+    //private String locGeoDetails;
+    private String locLatitude;
+    private String locLongitude;
     private String locStatus;
     private int locCapacity;
     private LocalDate locStartDate;

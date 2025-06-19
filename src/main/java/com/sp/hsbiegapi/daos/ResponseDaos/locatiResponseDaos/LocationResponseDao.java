@@ -16,7 +16,9 @@ public class LocationResponseDao {
     private long id;
     private String locName;
     private String locAddress;
-    private String locGeoDetails;
+    //private String locGeoDetails;
+    private String locLatitude;
+    private String locLongitude;
     private String locStatus;
     private int locCapacity;
     private LocalDate startDate;

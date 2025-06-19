@@ -327,7 +327,8 @@ public class Mapper {
         ld.setId(location.getId());
         ld.setLocName(location.getLocName());
         ld.setLocAddress(location.getLocAddress());
-        ld.setLocGeoDetails(location.getLocGeoDetails());
+        ld.setLocLatitude(location.getLocLatitude());
+        ld.setLocLongitude(location.getLocLongitude());
         ld.setLocStatus(location.getLocStatus());
         ld.setLocCapacity(location.getLocCapacity());
         ld.setStartDate(location.getLocStartDate());
@@ -339,7 +340,8 @@ public class Mapper {
         Location location = new Location();
         location.setLocName(locationRequestDao.getLocName());
         location.setLocAddress(locationRequestDao.getLocAddress());
-        location.setLocGeoDetails(locationRequestDao.getLocGeoDetails());
+        location.setLocLatitude(locationRequestDao.getLocLatitude());
+        location.setLocLongitude(locationRequestDao.getLocLongitude());
         location.setLocStatus(locationRequestDao.getLocStatus());
         location.setLocCapacity(locationRequestDao.getLocCapacity());
         location.setLocStartDate(locationRequestDao.getStartDate());
