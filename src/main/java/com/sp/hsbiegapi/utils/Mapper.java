@@ -3,11 +3,13 @@ package com.sp.hsbiegapi.utils;
 import com.sp.hsbiegapi.daos.RequestDaos.emploRequestDaos.EmployeeRequestDao;
 import com.sp.hsbiegapi.daos.RequestDaos.emploRequestDaos.PaymentRequestDao;
 import com.sp.hsbiegapi.daos.RequestDaos.energyRequestsDao.*;
+import com.sp.hsbiegapi.daos.RequestDaos.locatiRequestDaos.LocationRequestDao;
 import com.sp.hsbiegapi.daos.RequestDaos.memberRequestsDao.MemberRequestDao;
 import com.sp.hsbiegapi.daos.RequestDaos.emploRequestDaos.QualificationRequestDao;
 import com.sp.hsbiegapi.daos.RequestDaos.emploRequestDaos.TimeRecordRequests.TimeRecordRequestDao;
 import com.sp.hsbiegapi.daos.ResponseDaos.emploResponseDaos.EmployeeResponseDao;
 import com.sp.hsbiegapi.daos.ResponseDaos.energyResponseDaos.*;
+import com.sp.hsbiegapi.daos.ResponseDaos.locatiResponseDaos.LocationResponseDao;
 import com.sp.hsbiegapi.daos.ResponseDaos.memberResponseDaos.MemberResponseDao;
 import com.sp.hsbiegapi.daos.ResponseDaos.emploResponseDaos.PaymentResponseDao;
 import com.sp.hsbiegapi.daos.ResponseDaos.emploResponseDaos.QualificationResponseDao;
@@ -17,6 +19,7 @@ import com.sp.hsbiegapi.models.emploModels.Payment;
 import com.sp.hsbiegapi.models.emploModels.Qualification;
 import com.sp.hsbiegapi.models.emploModels.TimeRecord;
 import com.sp.hsbiegapi.models.energyModels.*;
+import com.sp.hsbiegapi.models.locModels.Location;
 import com.sp.hsbiegapi.models.memModels.Member;
 
 import java.time.LocalDate;
@@ -316,6 +319,30 @@ public class Mapper {
         operationalStatusResponseDao.setOpStatus(operationalStatus.getOpStatus());
         operationalStatusResponseDao.setEnergySourceId(operationalStatus.getEnergySource().getId());
         return operationalStatusResponseDao;
+    }
+
+    // Convert a Location Object into a LocationResponse
+    public static LocationResponseDao conEntityToDao(Location location){
+        LocationResponseDao ld = new LocationResponseDao();
+        ld.setId(location.getId());
+        ld.setLocName(location.getLocName());
+        ld.setLocAddress(location.getLocAddress());
+        ld.setLocGeoDetails(location.getLocGeoDetails());
+        ld.setLocStatus(location.getLocStatus());
+        ld.setLocCapacity(location.getLocCapacity());
+        ld.setStartDate(location.getLocStartDate());
+        return ld;
+    }
+
+    // Convert a LocationRequest into a Location Object
+    public static Location conDaoToEntity(LocationRequestDao locationRequestDao){
+        Location location = new Location();
+        location.setLocName(locationRequestDao.getLocName());
+        location.setLocAddress(locationRequestDao.getLocAddress());
+        location.setLocGeoDetails(locationRequestDao.getLocGeoDetails());
+        location.setLocStatus(locationRequestDao.getLocStatus());
+        location.setLocCapacity(locationRequestDao.getLocCapacity());
+        return location;
     }
 
 
