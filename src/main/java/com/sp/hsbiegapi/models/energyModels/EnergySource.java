@@ -1,6 +1,7 @@
 package com.sp.hsbiegapi.models.energyModels;
 
 import com.sp.hsbiegapi.models.emploModels.Employee;
+import com.sp.hsbiegapi.models.locModels.Location;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -35,27 +36,47 @@ public class EnergySource {
      *
      * So the Relationship between Energy Source and Maintenance Records will be one to many, because
      * one Energy Source can have multiple Maintenance Records */
-    @OneToMany(mappedBy = "energySource", cascade = CascadeType.ALL,fetch = FetchType.LAZY,orphanRemoval = true)
+    @OneToMany(
+            mappedBy = "energySource",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            orphanRemoval = true
+    )
     private List<Maintenance> maintenanceList = new ArrayList<>();
 
     /**
      * An Energy Source have to check and store production details daily, so for that we have another one to many relationship
      * where one energy source can have multiple Dailyproductions*/
-    @OneToMany(mappedBy = "energySource", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(
+            mappedBy = "energySource",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            orphanRemoval = true
+    )
     private List<DailyProduction> dailyProductionList = new ArrayList<>();
 
     /**
      * An Energy Source can also send one or more Alert signals if they have a problem or, therfore the
      * AlertSignal Table will stor all the Records of different Alert Signals.
      */
-    @OneToMany(mappedBy = "energySource",cascade = CascadeType.ALL,fetch = FetchType.LAZY,orphanRemoval = true)
+    @OneToMany(
+            mappedBy = "energySource",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            orphanRemoval = true
+    )
     private List<AlertSignal> alertSignalList = new ArrayList<>();
 
     /**
      * An Energy Source can have mutliple status. It could be working, under maintenance...
      * To Store them we link the OperationalStatus Table
      */
-    @OneToMany(mappedBy = "energySource",cascade = CascadeType.ALL,fetch = FetchType.LAZY,orphanRemoval = true)
+    @OneToMany(
+            mappedBy = "energySource",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            orphanRemoval = true
+    )
     private List<OperationalStatus> operationalStatusList = new ArrayList<>();
 
     /**
@@ -81,5 +102,28 @@ public class EnergySource {
     public void removeEmployee(Employee employee){
         employeeSet.remove(employee);
         employee.getEnergySourceSet().remove(this);
+    }
+
+    /**
+     * Single Energy Source can be planted in multiple Locations and One Location can have multiple Energy Sources, therefor we have a Many-To-Many Relationship between Energy Source and the Location.
+     */
+    @ManyToMany
+    @JoinTable(
+            name = "energysource_location",
+            joinColumns = @JoinColumn(name = "energysource_id"),
+            inverseJoinColumns = @JoinColumn(name = "location_id")
+    )
+    private Set<Location> locationSet = new HashSet<>();
+
+    // Add a Location to an Energy Source
+    public void addLocation(Location location){
+        locationSet.add(location);
+        location.getEnergySourceSet().add(this);
+    }
+
+    // Remove a Location from an Energy Source
+    public void removeLocation(Location location){
+        locationSet.remove(location);
+        location.getEnergySourceSet().remove(this);
     }
 }
