@@ -342,6 +342,7 @@ public class Mapper {
         location.setLocGeoDetails(locationRequestDao.getLocGeoDetails());
         location.setLocStatus(locationRequestDao.getLocStatus());
         location.setLocCapacity(locationRequestDao.getLocCapacity());
+        location.setLocStartDate(locationRequestDao.getStartDate());
         return location;
     }
 
