@@ -2,6 +2,7 @@ package com.sp.hsbiegapi.models.energyModels;
 
 import com.sp.hsbiegapi.models.emploModels.Employee;
 import com.sp.hsbiegapi.models.locModels.Location;
+import com.sp.hsbiegapi.models.memModels.Member;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -126,4 +127,10 @@ public class EnergySource {
         locationSet.remove(location);
         location.getEnergySourceSet().remove(this);
     }
+
+    /**
+     * Define Many-To-Many Relationship between Energy Source and Member.
+     */
+    @ManyToMany(mappedBy = "energySourceSet")
+    private Set<Member> memberSet = new HashSet<>();
 }

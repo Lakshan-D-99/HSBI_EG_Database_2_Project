@@ -1,10 +1,13 @@
 package com.sp.hsbiegapi.models.memModels;
 
 
+import com.sp.hsbiegapi.models.energyModels.EnergySource;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -28,6 +31,13 @@ public class Member {
     private String memberPaymentType;
 
     /**
-     * A Member can
+     * The Relationship between Member and Energy Source is a Many-To-Many Relationship. So a Member can join to one to or many Energy Sources, whereas an Energy Source can have multiple Members.
      */
+    @ManyToMany
+    @JoinTable(
+            name = "member_energysource",
+            joinColumns = @JoinColumn(name = "member_id"),
+            inverseJoinColumns = @JoinColumn(name = "energysource_id")
+    )
+    Set<EnergySource> energySourceSet = new HashSet<>();
 }
