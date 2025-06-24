@@ -13,10 +13,7 @@ import java.util.List;
 
 
 @Service
-public class WeatherApiService implements CommandLineRunner {
-
-    String testLatitude = "52.16";
-    String testLongitude = "8.859999";
+public class WeatherApiService {
 
     private final RestClient restClientWeather;
     private final ObjectMapper objectMapper;
@@ -89,9 +86,4 @@ public class WeatherApiService implements CommandLineRunner {
         return Math.floor(sunHoursInSeconds/3600);
     }
 
-
-    @Override
-    public void run(String... args) throws Exception {
-        getWeatherData(testLatitude, testLongitude);
-    }
 }
