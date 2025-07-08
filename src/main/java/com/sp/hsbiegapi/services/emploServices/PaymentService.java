@@ -2,7 +2,7 @@ package com.sp.hsbiegapi.services.emploServices;
 
 import com.sp.hsbiegapi.daos.RequestDaos.emploRequestDaos.PaymentRequestDao;
 import com.sp.hsbiegapi.daos.ResponseDaos.emploResponseDaos.PaymentResponseDao;
-import com.sp.hsbiegapi.models.emploModels.Payment;
+import com.sp.hsbiegapi.daos.ResponseDaos.emploResponseDaos.PaymentResponseDaoUpdated;
 
 import java.util.List;
 
@@ -14,17 +14,10 @@ public interface PaymentService {
     // Get a single Payment Detail
     PaymentResponseDao getSingleEmployeePayment(long paymentId);
 
+    // Get all the Payments with the Employee Name
+    List<PaymentResponseDaoUpdated> getAllPaymentsWithEmpName();
+
     // Add a new Payment to an Employee
     void addNewPaymentToEmployee(long employeeId, PaymentRequestDao paymentRequestDao);
 
-    // Update Payment Data <!-- This is Optional -->
-    void updateEmployeePayment(long employeeId, PaymentRequestDao paymentRequestDao);
-
-    // Delete a Payment
-    void deleteEmployeePayment(long paymentId);
-
-    // <!-- Intern Methods --> //
-
-    // Get the Latest Payment details of a specific Employee
-    Payment getLatestEmployeePayment(long employeeId);
 }

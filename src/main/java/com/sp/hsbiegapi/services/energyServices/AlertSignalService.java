@@ -14,6 +14,9 @@ public interface AlertSignalService {
     // Get a single Alert Signal of a specific Energy Source
     AlertSignalResponseDao getAlertSignalOfEnergySource(long alertSignalId);
 
+    // Get the amount of all the Alerts
+    String getAlertAmount();
+
     // Add a new Alert Signal to an Energy Source
     void addAlertSignalToEnergySource(long energySourceId, AlertSignalRequestDao alertSignalRequestDao);
 

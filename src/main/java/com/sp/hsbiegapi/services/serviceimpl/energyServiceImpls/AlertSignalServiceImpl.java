@@ -49,6 +49,18 @@ public class AlertSignalServiceImpl implements AlertSignalService {
     }
 
     @Override
+    public String getAlertAmount() {
+
+        try {
+            // Get all the Alerts from the Database
+            return String.valueOf(alertSignalRepository.count());
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
     public void addAlertSignalToEnergySource(long energySourceId, AlertSignalRequestDao alertSignalRequestDao) {
 
         try {

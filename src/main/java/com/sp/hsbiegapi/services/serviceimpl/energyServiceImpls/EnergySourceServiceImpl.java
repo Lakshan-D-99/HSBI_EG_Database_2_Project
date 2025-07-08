@@ -2,12 +2,16 @@ package com.sp.hsbiegapi.services.serviceimpl.energyServiceImpls;
 
 import com.sp.hsbiegapi.daos.RequestDaos.energyRequestsDao.EnergySourceRequestsDao;
 import com.sp.hsbiegapi.daos.ResponseDaos.energyResponseDaos.EnergySourceResponseDao;
+import com.sp.hsbiegapi.daos.ResponseDaos.joinResponses.LocationEnergySourceResponse;
 import com.sp.hsbiegapi.models.energyModels.EnergySource;
+import com.sp.hsbiegapi.models.locModels.Location;
 import com.sp.hsbiegapi.repositories.energyRepositories.EnergySourceRepository;
+import com.sp.hsbiegapi.repositories.locatiRepositories.LocationRepository;
 import com.sp.hsbiegapi.services.energyServices.EnergySourceService;
 import com.sp.hsbiegapi.utils.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,10 +21,12 @@ import java.util.Optional;
 public class EnergySourceServiceImpl implements EnergySourceService {
 
     private final EnergySourceRepository energySourceRepository;
+    private final LocationRepository locationRepository;
 
     @Autowired
-    public EnergySourceServiceImpl(EnergySourceRepository energySourceRepository) {
+    public EnergySourceServiceImpl(EnergySourceRepository energySourceRepository, LocationRepository locationRepository) {
         this.energySourceRepository = energySourceRepository;
+        this.locationRepository = locationRepository;
     }
 
     @Override
@@ -70,6 +76,39 @@ public class EnergySourceServiceImpl implements EnergySourceService {
     }
 
     @Override
+    public List<LocationEnergySourceResponse> getAllEnergySourcesAndLocations() {
+        try {
+            List<EnergySource> energySources = energySourceRepository.findAll();
+            List<LocationEnergySourceResponse> responses = new ArrayList<>();
+
+            for (EnergySource es : energySources) {
+                for (Location loc : es.getLocationSet()) {
+                    LocationEnergySourceResponse response = new LocationEnergySourceResponse();
+                    response.setEnergySourceId(es.getId());
+                    response.setEnergySourceType(es.getEnergyType());
+                    response.setEnergySourceCapacity(es.getEnergyCapacity());
+                    response.setLocationName(loc.getLocName());
+                    response.setAddress(loc.getLocAddress());
+
+                    responses.add(response);
+                }
+            }
+            return responses;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public String getAmountOfEnergyLocations() {
+
+        List<LocationEnergySourceResponse> loe = energySourceRepository.findAllEnergySourcesWithLocations();
+
+        return String.valueOf(loe.size());
+    }
+
+
+    @Override
     public void addNewEnergySource(EnergySourceRequestsDao energySourceRequestsDao) {
         try {
 
@@ -91,11 +130,6 @@ public class EnergySourceServiceImpl implements EnergySourceService {
         } catch (Exception e) {
             System.out.println("Error adding a new Energy Source: " + e.getMessage());
         }
-    }
-
-    @Override
-    public void updateEnergySource(long energySourceId, EnergySourceRequestsDao energySourceRequestsDao) {
-
     }
 
     @Override

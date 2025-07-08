@@ -2,6 +2,7 @@ package com.sp.hsbiegapi.controllers.emploControllers;
 
 import com.sp.hsbiegapi.daos.RequestDaos.emploRequestDaos.PaymentRequestDao;
 import com.sp.hsbiegapi.daos.ResponseDaos.emploResponseDaos.PaymentResponseDao;
+import com.sp.hsbiegapi.daos.ResponseDaos.emploResponseDaos.PaymentResponseDaoUpdated;
 import com.sp.hsbiegapi.services.emploServices.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/payments")
+@RequestMapping("/api_v1/payments")
 public class PaymentController {
 
     private final PaymentService paymentService;
@@ -31,6 +32,12 @@ public class PaymentController {
         return paymentService.getSingleEmployeePayment(payId);
     }
 
+    // Get all the Payments with the Employee names
+    @GetMapping("/all-with-name")
+    public List<PaymentResponseDaoUpdated> getAllPaymentsWithEmpName(){
+        return paymentService.getAllPaymentsWithEmpName();
+    }
+
     // Add a new Payment to an Employee
     @PostMapping("/empId={employeeId}/new")
     public String addPaymentToEmployee(@PathVariable long employeeId,@RequestBody PaymentRequestDao paymentRequestDao){
@@ -38,10 +45,4 @@ public class PaymentController {
         return "A Payment has added to the Employee with the Id: " + employeeId;
     }
 
-    // Delete a Payment from an existing Employee
-    @DeleteMapping("/paymentId={payId}")
-    public String deleteEmployeePayment(@PathVariable long payId){
-        paymentService.deleteEmployeePayment(payId);
-        return "Payment has been deleted";
-    }
 }

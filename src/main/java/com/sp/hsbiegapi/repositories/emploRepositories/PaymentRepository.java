@@ -1,5 +1,6 @@
 package com.sp.hsbiegapi.repositories.emploRepositories;
 
+import com.sp.hsbiegapi.daos.ResponseDaos.emploResponseDaos.PaymentResponseDaoUpdated;
 import com.sp.hsbiegapi.models.emploModels.Payment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -10,10 +11,11 @@ import java.util.List;
 @Repository
 public interface PaymentRepository extends JpaRepository<Payment,Long> {
 
-    @Query("SELECT p FROM Payment p WHERE p.employee.id = :employeeId")
-    List<Payment> getAllEmployeePayments(long employeeId);
-
-    /*@Query("SELECT P FROM Payment p WHERE p.employee.id=:employeeId ORDER BY p.paymentDate DESC LIMIT 1")
-    Optional<Payment> getEmployeeLastPayment(long employeeId);*/
+    // Get All the Payments with their corresponding Employee name
+    @Query(
+            value = "select payment.id, payment.payment_amount, payment.payment_date, employee.emp_name from Payment payment inner join Employee employee on payment.employee_id = employee.id",
+            nativeQuery = true
+    )
+    List<PaymentResponseDaoUpdated> getPaymentWithEmployeeName();
 
 }

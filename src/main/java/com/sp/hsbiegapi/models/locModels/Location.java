@@ -27,7 +27,6 @@ public class Location {
     @Column(unique = true)
     private String locName;
     private String locAddress;
-    //private String locGeoDetails;
     private String locLatitude;
     private String locLongitude;
     private String locStatus;

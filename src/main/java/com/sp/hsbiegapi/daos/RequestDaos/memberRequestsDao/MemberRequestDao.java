@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -16,6 +18,6 @@ public class MemberRequestDao {
     private String memEmail;
     private double memberContribution;
     private String memberStats;
-    //private LocalDate memberJoinDate;
+    private LocalDate memberJoinDate;
     private String memberPaymentType;
 }

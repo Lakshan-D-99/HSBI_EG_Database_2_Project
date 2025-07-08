@@ -1,4 +1,4 @@
-package com.sp.hsbiegapi.services.serviceimpl;
+package com.sp.hsbiegapi.services.serviceimpl.MemberServiceImpls;
 
 import com.sp.hsbiegapi.daos.RequestDaos.memberRequestsDao.MemberRequestDao;
 import com.sp.hsbiegapi.daos.ResponseDaos.memberResponseDaos.MemberResponseDao;
@@ -53,33 +53,23 @@ public class MemberServiceImpl implements MemberService {
         }
     }
 
+    @Override
+    public String getAllActiveMembers() {
+
+        long activeMembers = memberRepository.findAll().stream().filter(member -> member.getMemberStatus().equals("AKTIVE")).count();
+
+        return String.valueOf(activeMembers);
+    }
+
     // Save a new Member into the Database
     @Override
-    public void addMember(MemberRequestDao memberRequestDao) {
+    public MemberResponseDao addMember(MemberRequestDao memberRequestDao) {
         try {
-            memberRepository.save(Mapper.conDaoToEntity(memberRequestDao));
+           Member createdMember = memberRepository.save(Mapper.conDaoToEntity(memberRequestDao));
+           return Mapper.conEntityToDao(createdMember);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
 
-    }
-
-    // Update an existing Member in the Database
-    @Override
-    public void updateMember(long memberId, MemberRequestDao memberRequestDao) {
-        //TODO: Update will be implemented later
-    }
-
-    // Delete an existing Member from the Database
-    @Override
-    public void deleteMember(long memberId) {
-        try {
-            Optional<Member> existsMember = memberRepository.findById(memberId);
-
-            existsMember.ifPresent(member -> memberRepository.delete(member));
-
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
-        }
     }
 }

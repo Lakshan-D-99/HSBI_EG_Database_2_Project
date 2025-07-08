@@ -13,12 +13,9 @@ public interface MemberService {
     // Get a Single Member based on the Passed in memberId
     MemberResponseDao getSingleMember(long memberId);
 
+    // Get the amount of all the active Members in the Database
+    String getAllActiveMembers();
+
     // Create and Save a new Member into the Database
-    void addMember(MemberRequestDao memberRequestDao);
-
-    // Update an existing Member in the Database
-    void updateMember(long memberId, MemberRequestDao memberRequestDao);
-
-    // Delete an existing Member from the Database
-    void deleteMember(long memberId);
+    MemberResponseDao addMember(MemberRequestDao memberRequestDao);
 }

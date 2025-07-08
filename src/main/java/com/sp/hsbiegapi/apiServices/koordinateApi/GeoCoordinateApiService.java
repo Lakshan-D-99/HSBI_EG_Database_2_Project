@@ -33,10 +33,10 @@ public class GeoCoordinateApiService implements CommandLineRunner {
         this.restClient = RestClient.builder().baseUrl(BASE_URL).build();
     }
 
-    public GeoCoordinateResponse getData(GeoCoordinateRequest gc) throws JsonProcessingException {
+    public GeoCoordinateResponse getData(String address) throws JsonProcessingException {
 
         // Generate the Url to get the Data from the Geocoordinate Api
-        String urlString = BASE_URL + "" + gc.generateGeoCoordinateRequest() + "&format=json&apiKey=" + this.API_KEY + "";
+        String urlString = BASE_URL + "" + address + "&format=json&apiKey=" + this.API_KEY + "";
 
         // Store the Response as String
         String response = restClient.get().uri(urlString).retrieve().body(String.class);
@@ -51,16 +51,15 @@ public class GeoCoordinateApiService implements CommandLineRunner {
         JsonNode longitude = parentNode.get(0).get("lon");
         JsonNode latitude = parentNode.get(0).get("lat");
 
+//        System.out.println(longitude);
+//        System.out.println(latitude);
+
         return new GeoCoordinateResponse(latitude.toString(), longitude.toString());
 
     }
 
-
     @Override
     public void run(String... args) throws Exception {
-        GeoCoordinateRequest gc = new GeoCoordinateRequest("11 Av.", "de la Bourdonnais","75007","Paris","France");
-        System.out.println(this.API_KEY);
-        getData(gc);
-
+        getData("Südstraße 10, 32602 Vlotho, Germany");
     }
 }

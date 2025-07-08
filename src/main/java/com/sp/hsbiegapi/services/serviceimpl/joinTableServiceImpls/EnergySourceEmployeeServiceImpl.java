@@ -1,4 +1,4 @@
-package com.sp.hsbiegapi.services.serviceimpl.joinTableServiceImpl;
+package com.sp.hsbiegapi.services.serviceimpl.joinTableServiceImpls;
 
 import com.sp.hsbiegapi.daos.ResponseDaos.emploResponseDaos.EmployeeResponseDao;
 import com.sp.hsbiegapi.daos.ResponseDaos.energyResponseDaos.EnergySourceResponseDao;
@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Service

@@ -1,6 +1,7 @@
 package com.sp.hsbiegapi.services.serviceimpl.energyServiceImpls;
 
 import com.sp.hsbiegapi.daos.RequestDaos.energyRequestsDao.DailyProductionRequestDao;
+import com.sp.hsbiegapi.daos.ResponseDaos.dashboardResponseDaos.DashboardEnergyProductionResponse;
 import com.sp.hsbiegapi.daos.ResponseDaos.energyResponseDaos.DailyProductionResponseDao;
 import com.sp.hsbiegapi.models.energyModels.AlertSignal;
 import com.sp.hsbiegapi.models.energyModels.DailyProduction;
@@ -68,6 +69,21 @@ public class DailyProductionServiceImpl implements DailyProductionService {
         } catch (Exception e){
             System.out.println(e.getMessage());
             return new DailyProductionResponseDao();
+        }
+    }
+
+    @Override
+    public String getAllTheEnergyCapacity() {
+        return String.valueOf(dailyProductionRepository.getAllEnergyProduction());
+    }
+
+    @Override
+    public List<DashboardEnergyProductionResponse> getAllEnergyProduction() {
+        try {
+            System.out.println(dailyProductionRepository.getAllEnergyProductionWithDate().toString());
+            return dailyProductionRepository.getAllEnergyProductionWithDate();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 

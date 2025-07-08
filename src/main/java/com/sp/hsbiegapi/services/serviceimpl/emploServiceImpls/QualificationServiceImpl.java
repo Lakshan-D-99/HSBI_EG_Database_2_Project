@@ -107,29 +107,4 @@ public class QualificationServiceImpl implements QualificationService {
             System.out.println(e.getMessage());
         }
     }
-
-    @Override
-    public void updateEmployeeQualification(long employeeId, QualificationRequestDao qualificationRequestDao) {
-
-    }
-
-    @Override
-    public void deleteEmployeeQualification(long qualificationId) {
-
-        try {
-
-            // Get and Check if this Qualification exists in the Database
-            Optional<Qualification> qualification = qualificationRepository.findById(qualificationId);
-
-            if (qualification.isPresent()){
-                qualificationRepository.delete(qualification.get());
-                System.out.println("Qualification has been deleted");
-            }
-
-            System.out.println("This Qualification does not exists in the Database");
-
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-        }
-    }
 }

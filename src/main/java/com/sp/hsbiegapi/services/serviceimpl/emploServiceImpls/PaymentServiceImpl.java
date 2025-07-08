@@ -2,6 +2,7 @@ package com.sp.hsbiegapi.services.serviceimpl.emploServiceImpls;
 
 import com.sp.hsbiegapi.daos.RequestDaos.emploRequestDaos.PaymentRequestDao;
 import com.sp.hsbiegapi.daos.ResponseDaos.emploResponseDaos.PaymentResponseDao;
+import com.sp.hsbiegapi.daos.ResponseDaos.emploResponseDaos.PaymentResponseDaoUpdated;
 import com.sp.hsbiegapi.models.emploModels.Employee;
 import com.sp.hsbiegapi.models.emploModels.Payment;
 import com.sp.hsbiegapi.repositories.emploRepositories.EmployeeRepository;
@@ -11,6 +12,7 @@ import com.sp.hsbiegapi.utils.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,17 +32,17 @@ public class PaymentServiceImpl implements PaymentService {
     public List<PaymentResponseDao> getAllPaymentsOfEmployee(long employeeId) {
         try {
 
-            List<Payment> allPayments = paymentRepository.findAll();
+            // Get the Employee based on the passed in Employee id
+            Employee employee = employeeRepository.findById(employeeId).orElseThrow();
 
-            List<Payment> filterdPayments = allPayments.stream().filter(payment -> payment.getEmployee().getId()==employeeId).toList();
+            List<PaymentResponseDao> paymentResponseDAOs = new ArrayList<>();
 
-            List<PaymentResponseDao> paymentResponseDaos = filterdPayments.stream().map(Mapper::conEntityToDao).toList();
+            employee.getPaymentList().forEach(payment -> paymentResponseDAOs.add(Mapper.conEntityToDao(payment)));
 
-            return paymentResponseDaos;
+            return paymentResponseDAOs;
 
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return null;
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -61,6 +63,15 @@ public class PaymentServiceImpl implements PaymentService {
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return null;
+        }
+    }
+
+    @Override
+    public List<PaymentResponseDaoUpdated> getAllPaymentsWithEmpName() {
+        try {
+            return paymentRepository.getPaymentWithEmployeeName();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -100,56 +111,5 @@ public class PaymentServiceImpl implements PaymentService {
             System.out.println(e.getMessage());
         }
 
-    }
-
-    @Override
-    public void updateEmployeePayment(long employeeId, PaymentRequestDao paymentRequestDao) {
-
-    }
-
-    @Override
-    public void deleteEmployeePayment(long paymentId) {
-        try {
-            // Get the Payment object from the Database
-            Optional<Payment> payment = paymentRepository.findById(paymentId);
-
-            // Check if the Payment exists and delete the Payment
-            if (payment.isPresent()) {
-                paymentRepository.delete(payment.get());
-                System.out.println("Payment has been deleted");
-            }
-
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    // <!-- Intern Methods -->
-
-    @Override
-    public Payment getLatestEmployeePayment(long employeeId) {
-
-        try {
-
-            // Find and Check if the Employee exists in the the Database
-            Optional<Employee> employee = employeeRepository.findById(employeeId);
-
-            if (employee.isPresent()) {
-
-                // Get and Check if the latest Payment details of the Employee exists or not
-                //Optional<Payment> payment = paymentRepository.getEmployeeLastPayment(employeeId);
-
-
-                System.out.println("This Employee does not have a latest Payment Date");
-                return new Payment();
-
-            }
-            System.out.println("This Employee does not have a latest Payment Date");
-            return new Payment();
-
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return null;
-        }
     }
 }

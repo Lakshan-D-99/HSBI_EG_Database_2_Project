@@ -1,5 +1,8 @@
 package com.sp.hsbiegapi.services.serviceimpl.locatiServiceImpls;
 
+import com.sp.hsbiegapi.apiServices.koordinateApi.GeoCoordinateApiService;
+import com.sp.hsbiegapi.apiServices.koordinateApi.GeoCoordinateRequest;
+import com.sp.hsbiegapi.apiServices.koordinateApi.GeoCoordinateResponse;
 import com.sp.hsbiegapi.daos.RequestDaos.locatiRequestDaos.LocationRequestDao;
 import com.sp.hsbiegapi.daos.ResponseDaos.locatiResponseDaos.LocationResponseDao;
 import com.sp.hsbiegapi.models.locModels.Location;
@@ -8,6 +11,7 @@ import com.sp.hsbiegapi.services.locatiServices.LocationService;
 import com.sp.hsbiegapi.utils.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,10 +20,12 @@ import java.util.List;
 public class LocationServiceImpl implements LocationService {
 
     private final LocationRepository locationRepository;
+    private final GeoCoordinateApiService geoCoordinateApiService;
 
     @Autowired
-    public LocationServiceImpl(LocationRepository locationRepository) {
+    public LocationServiceImpl(LocationRepository locationRepository, GeoCoordinateApiService geoCoordinateApiService) {
         this.locationRepository = locationRepository;
+        this.geoCoordinateApiService = geoCoordinateApiService;
     }
 
     @Override
@@ -74,16 +80,22 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
+    @Transactional
     public void saveLocation(LocationRequestDao locationRequestDao) {
 
         try {
             // Check if the Required fields are passed in
-            if (locationRequestDao.getLocName().isEmpty() && locationRequestDao.getLocAddress().isEmpty() && locationRequestDao.getLocLatitude().isEmpty() && locationRequestDao.getLocLongitude().isEmpty() && locationRequestDao.getLocStatus().isEmpty() && locationRequestDao.getLocCapacity() == 0 && locationRequestDao.getStartDate() == null){
+            if (locationRequestDao.getLocName().isEmpty() && locationRequestDao.getLocAddress().isEmpty() && locationRequestDao.getLocStatus().isEmpty() && locationRequestDao.getLocCapacity() == 0 && locationRequestDao.getStartDate() == null){
                 System.out.println("Please provide all the necessray Details to create and save a new Location");
             }
 
+            // Generate Geocoordinate Response using the GeoService Api
+            GeoCoordinateResponse gcResponse = geoCoordinateApiService.getData(locationRequestDao.getLocAddress());
+
             // Create a Location Object based on the passed in Location Details
             Location location = Mapper.conDaoToEntity(locationRequestDao);
+            location.setLocLatitude(gcResponse.latitude());
+            location.setLocLongitude(gcResponse.longitude());
 
             // Save the Location to the Database
             locationRepository.save(location);
@@ -92,26 +104,5 @@ public class LocationServiceImpl implements LocationService {
             throw new RuntimeException(e);
         }
 
-    }
-
-    @Override
-    //TODO: To be Implemented
-    public void updateLocation(long locationId, LocationRequestDao locationRequestDao) {
-
-    }
-
-    @Override
-    public void deleteLocation(long locationId) {
-
-        try {
-            // Get the Location based on passed in Location id
-            Location location = locationRepository.findById(locationId).orElseThrow();
-
-            // Remove the Location from the Database
-            locationRepository.delete(location);
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 }

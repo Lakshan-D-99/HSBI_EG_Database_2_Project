@@ -1,14 +1,16 @@
 package com.sp.hsbiegapi.apiServices.koordinateApi;
 
-public record GeoCoordinateRequest(
-        String locNumber,
-        String streetName,
-        String streetCode,
-        String cityName,
-        String country
-) {
+import java.util.Arrays;
 
-    public String generateGeoCoordinateRequest(){
-        return locNumber + " " + streetName + ", " + streetCode + " " + cityName + ", " + country;
+public record GeoCoordinateRequest(String address) {
+
+    public String[] getAddressData(){
+        String[] addressData = new String[3];
+
+        addressData = address.split(",");
+
+        //System.out.println(Arrays.toString(addressData));
+
+        return addressData;
     }
 }

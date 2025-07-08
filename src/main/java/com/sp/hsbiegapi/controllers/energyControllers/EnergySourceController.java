@@ -2,6 +2,7 @@ package com.sp.hsbiegapi.controllers.energyControllers;
 
 import com.sp.hsbiegapi.daos.RequestDaos.energyRequestsDao.EnergySourceRequestsDao;
 import com.sp.hsbiegapi.daos.ResponseDaos.energyResponseDaos.EnergySourceResponseDao;
+import com.sp.hsbiegapi.daos.ResponseDaos.joinResponses.LocationEnergySourceResponse;
 import com.sp.hsbiegapi.services.energyServices.EnergySourceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/energy-sources")
+@RequestMapping("/api_v1/energy-sources")
 public class EnergySourceController {
 
     private final EnergySourceService energySourceService;
@@ -29,6 +30,12 @@ public class EnergySourceController {
     @GetMapping("/{eId}")
     public EnergySourceResponseDao getEnergySource(@PathVariable long eId){
         return energySourceService.getEnergySource(eId);
+    }
+
+    // Get All Energy Sources with their Locations
+    @GetMapping("/all-with-locations")
+    public List<LocationEnergySourceResponse> getAllEnergySourcesWithLocations(){
+        return energySourceService.getAllEnergySourcesAndLocations();
     }
 
     // Add a new Energy Source into the Database

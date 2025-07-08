@@ -1,4 +1,4 @@
-package com.sp.hsbiegapi.services.serviceimpl.joinTableServiceImpl;
+package com.sp.hsbiegapi.services.serviceimpl.joinTableServiceImpls;
 
 import com.sp.hsbiegapi.daos.ResponseDaos.energyResponseDaos.EnergySourceResponseDao;
 import com.sp.hsbiegapi.models.energyModels.EnergySource;

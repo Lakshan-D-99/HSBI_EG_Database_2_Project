@@ -18,14 +18,7 @@ public interface TimeRecordService {
     // Add a new TimeKeeping Record to an Employee
     void addNewTimeRecordToEmployee(long employeeId, TimeRecordRequestDao timeRecordRequestDao);
 
-    // Update the TimeKeeping Record of an Employee
-    void updateTimeRecordOfEmployee(long employeeId,long recordId, TimeRecordRequestDao timeRecordRequestDao);
-
     // Delete the TimeKeeping Record of an Employee
     void deleteTimeRecordOfEmployee(long recordId);
 
-    // <!-- Internal Methods -->
-
-    // Get working hours between two Dates -> essential to generate a Payment
-    WorkingHoursResponseDao getEmployeeHoursBetweenTwoDates(long employeeId, LocalDate startDate, LocalDate endDate);
 }

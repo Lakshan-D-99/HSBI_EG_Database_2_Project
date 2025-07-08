@@ -1,5 +1,6 @@
 package com.sp.hsbiegapi.services.locatiServices;
 
+import com.sp.hsbiegapi.apiServices.koordinateApi.GeoCoordinateRequest;
 import com.sp.hsbiegapi.daos.RequestDaos.locatiRequestDaos.LocationRequestDao;
 import com.sp.hsbiegapi.daos.ResponseDaos.locatiResponseDaos.LocationResponseDao;
 
@@ -18,11 +19,5 @@ public interface LocationService {
 
     // Create a new Location and Add it into the Database
     void saveLocation(LocationRequestDao locationRequestDao);
-
-    // Update an existing Location with the updated Location Data
-    void updateLocation(long locationId,LocationRequestDao locationRequestDao);
-
-    // Delete an existing Location from the Database
-    void deleteLocation(long locationId);
 
 }

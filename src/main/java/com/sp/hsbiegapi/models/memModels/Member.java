@@ -40,4 +40,16 @@ public class Member {
             inverseJoinColumns = @JoinColumn(name = "energysource_id")
     )
     Set<EnergySource> energySourceSet = new HashSet<>();
+
+    // Add Energy Source
+    public void addEnergySource(EnergySource energySource){
+        energySourceSet.add(energySource);
+        energySource.getMemberSet().add(this);
+    }
+
+    // Remove an Energy Source
+    public void removeEnergySource(EnergySource energySource){
+        energySourceSet.remove(energySource);
+        energySource.getMemberSet().remove(this);
+    }
 }

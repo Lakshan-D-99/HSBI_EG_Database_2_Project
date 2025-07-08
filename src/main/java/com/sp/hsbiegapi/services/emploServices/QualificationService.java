@@ -16,9 +16,6 @@ public interface QualificationService {
     // Add a new Qualification to an existing Employee
     void addQualificationToEmployee(long employeeId, QualificationRequestDao qualificationRequestDao);
 
-    // Update an existing Qualification of an existing Employee
-    void updateEmployeeQualification(long employeeId, QualificationRequestDao qualificationRequestDao);
-
     // Delete an existing Qualification of an Employee
     void deleteEmployeeQualification(long qualificationId);
 }

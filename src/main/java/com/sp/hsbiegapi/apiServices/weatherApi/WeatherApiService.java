@@ -53,13 +53,8 @@ public class WeatherApiService {
         // Convert Sun hours into real hours (from the Response, we get them in seconds instead of hours )
         double sunHours = conSecondsToHours(sunSeconds);
 
-        System.out.println(maxTemp);
-        System.out.println(date);
-        System.out.println(sunHours);
-
         // Lastly return a Weather Response back to the User
         return new WeatherApiResponse(maxTemp, LocalDate.parse(date), sunHours);
-
     }
 
     // Private Method to get the highest Temperature from a List of Temperatures

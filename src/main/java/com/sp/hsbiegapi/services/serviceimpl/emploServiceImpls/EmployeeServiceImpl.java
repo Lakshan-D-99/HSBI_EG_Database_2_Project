@@ -2,6 +2,10 @@ package com.sp.hsbiegapi.services.serviceimpl.emploServiceImpls;
 
 import com.sp.hsbiegapi.daos.RequestDaos.emploRequestDaos.EmployeeRequestDao;
 import com.sp.hsbiegapi.daos.ResponseDaos.emploResponseDaos.EmployeeResponseDao;
+import com.sp.hsbiegapi.exceptions.employeeExceptions.EmployeeAlreadyExistsException;
+import com.sp.hsbiegapi.exceptions.employeeExceptions.EmployeeNotFoundException;
+import com.sp.hsbiegapi.exceptions.employeeExceptions.ErrorCreatingAnEmployeeException;
+import com.sp.hsbiegapi.exceptions.employeeExceptions.MissingEmployeeDataException;
 import com.sp.hsbiegapi.models.emploModels.Employee;
 import com.sp.hsbiegapi.repositories.emploRepositories.EmployeeRepository;
 import com.sp.hsbiegapi.services.emploServices.EmployeeService;
@@ -11,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,18 +39,12 @@ public class EmployeeServiceImpl implements EmployeeService {
             List<EmployeeResponseDao> employeeResponseDaoList = new ArrayList<>();
 
             // If there are Employees, convert them to Employee Response Objects and send the to the Front end
-            if (!allEmployees.isEmpty()){
-
-                for (Employee employee : allEmployees){
-                    employeeResponseDaoList.add(Mapper.conEntityToDao(employee));
-                }
-            }
+            allEmployees.forEach(employee -> employeeResponseDaoList.add(Mapper.conEntityToDao(employee)));
 
             return employeeResponseDaoList;
 
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-            return null; // This is not allowed
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -54,19 +53,14 @@ public class EmployeeServiceImpl implements EmployeeService {
         try {
 
             // Get the Employee based on the passed in employee id
-            Optional<Employee> employee = employeeRepository.findById(employeeId);
+            Employee employee = employeeRepository.findById(employeeId).orElseThrow(
+                    ()-> new EmployeeNotFoundException("Error getting the Employee")
+            );
 
-            // Check if the Employee exists and send it to the Front end
-            if (employee.isPresent()){
-                return Mapper.conEntityToDao(employee.get());
-            }
+            return Mapper.conEntityToDao(employee);
 
-            System.out.println("Employee with the Id: " + employeeId + " does not exists");
-            return new EmployeeResponseDao();
-
-        } catch (Exception e){
-            System.out.println(e.getMessage());
-            return null; // This is also not allowed
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -74,23 +68,34 @@ public class EmployeeServiceImpl implements EmployeeService {
     public void addNewEmployee(EmployeeRequestDao employeeRequestDao) {
 
         try {
-                // Create an Employee Object from the Request Dao and store it into the Database
-                Employee employee = new Employee();
-                employee.setEmpName(employeeRequestDao.getEmpName());
-                employee.setEmpEmail(employeeRequestDao.getEmpEmail());
-                //employee.setEmpContactNum("Test Number");
-                employee.setEmpPosition(employeeRequestDao.getEmpPosition());
-               // employee.setEmpInfo("Test information");
-                //employee.setEmpStartDate(LocalDate.parse("23/10/2003"));
 
-                System.out.println(employee.getEmpName());
+            // Check if the Employee has passed all the data to create a new Employee
+            if (employeeRequestDao.getEmpName().isEmpty() && employeeRequestDao.getEmpEmail().isEmpty() && employeeRequestDao.getEmpContactNumber().isEmpty() && employeeRequestDao.getEmpPosition().isEmpty() && employeeRequestDao.getEmpInfo().isEmpty()){
+                throw new MissingEmployeeDataException("Please pass the required fields to create a new Employee");
+            }
 
-                employeeRepository.save(employee);
+            // Check if an Employee already exists with the passed in Email Address
+            Optional<Employee> existEmployee = employeeRepository.findEmployeeByEmpEmail(employeeRequestDao.getEmpEmail());
 
-                System.out.println("New Employee has been created and stored it into the Database");
+            if (existEmployee.isPresent()) throw new EmployeeAlreadyExistsException("");
+
+            // Create an Employee Object from the Request Dao and store it into the Database
+            Employee employee = new Employee();
+            employee.setEmpName(employeeRequestDao.getEmpName());
+            employee.setEmpEmail(employeeRequestDao.getEmpEmail());
+            employee.setEmpContactNum(employee.getEmpContactNum());
+            employee.setEmpPosition(employeeRequestDao.getEmpPosition());
+            employee.setEmpInfo(employeeRequestDao.getEmpInfo());
+
+           // Generate the Current Date
+            LocalDate today = LocalDate.now();
+            employee.setEmpStartDate(today);
+
+            // Save the Employee to the Database
+            employeeRepository.save(employee);
 
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+           throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -103,7 +108,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             Optional<Employee> employee = employeeRepository.findById(employeeId);
 
             // Check if the Employee exists or not
-            if (employee.isPresent()){
+            if (employee.isPresent()) {
 
                 // Update the Employee Data and save the Employee Object into the Database
                 Employee existEmployee = employee.get();
@@ -123,8 +128,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
             System.out.println("This Employee can not be updated, beacuse it doe not exists in the Database");
 
-        } catch (Exception e){
-            System.out.println(e.getMessage());
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
         }
 
     }
@@ -132,19 +137,16 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public void deleteEmployee(long employeeId) {
 
-      try {
+        try {
 
-          // Get the Employee based on the passed in id
-          Optional<Employee> employee = employeeRepository.findById(employeeId);
+            // Get the Employee based on the passed in id
+            Employee employee = employeeRepository.findById(employeeId).orElseThrow();
 
-          // Check if the Employee exists with the given id and delete the Employee
-          if (employee.isPresent()){
-              employeeRepository.delete(employee.get());
-              System.out.println("EMPLOYEE SERVICE IMPL - employee has been deleted");
-          }
+            // Check if the Employee exists with the given id and delete the Employee
+           employeeRepository.delete(employee);
 
-      }catch (Exception e){
-          System.out.println(e.getMessage());
-      }
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
 }
