@@ -20,7 +20,7 @@ import java.util.Iterator;
 public class GeoCoordinateApiService implements CommandLineRunner {
 
     @Value("${GEO_COORDINATE_API}")
-    private String API_KEY;
+    private String API_KEY; // This is a fake key, so it wont work
 
     private String BASE_URL = "https://api.geoapify.com/v1/geocode/search?text=";
 
