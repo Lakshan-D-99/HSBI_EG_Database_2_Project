@@ -106,4 +106,9 @@ public class TimeRecordServiceImpl implements TimeRecordService {
         }
 
     }
+
+    @Override
+    public void deleteTimeRecordOfEmployee(long recordId) {
+
+    }
 }
