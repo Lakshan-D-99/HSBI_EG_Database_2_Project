@@ -20,5 +20,9 @@ public interface DailyProductionService {
     // Get a List of all the Energy Production based on the Date
     List<DashboardEnergyProductionResponse> getAllEnergyProduction();
 
+    public void addDailyProductionToEnergySource(long energySourceId, DailyProductionRequestDao dailyProductionRequestDao);
+
+    public void removeDailyProductionOfEnergySource(long dailyProductionId);
+
 
 }

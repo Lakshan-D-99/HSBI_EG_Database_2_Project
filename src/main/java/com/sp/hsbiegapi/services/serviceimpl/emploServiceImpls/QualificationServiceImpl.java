@@ -107,4 +107,9 @@ public class QualificationServiceImpl implements QualificationService {
             System.out.println(e.getMessage());
         }
     }
+
+    @Override
+    public void deleteEmployeeQualification(long qualificationId) {
+
+    }
 }
